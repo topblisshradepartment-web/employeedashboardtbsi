@@ -3,64 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A-Player KPI Scoring — Top Bliss Solutions</title>
+<title>TopBliss A-Player Scoring Dashboard</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,sans-serif;font-size:14px;color:#1a1a1a;background:#f5f5f5;padding:1rem}
-.wrap{max-width:960px;margin:0 auto}
+.wrap{max-width:980px;margin:0 auto}
+h1{font-size:18px;font-weight:600;margin-bottom:2px}
+.sub{font-size:12px;color:#888;margin-bottom:1rem}
 .tabs{display:flex;gap:6px;border-bottom:1px solid #ddd;margin-bottom:1.5rem;flex-wrap:wrap}
 .tab{padding:7px 14px;font-size:12px;border:none;background:transparent;color:#666;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
-.tab.active{color:#1a1a1a;border-bottom:2px solid #1a1a1a;font-weight:500}
+.tab.active{color:#1a1a1a;border-bottom:2px solid #1a1a1a;font-weight:600}
 .sec{display:none}.sec.active{display:block}
 .card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .metric{background:#f8f8f8;border-radius:8px;padding:.75rem 1rem}
 .ml{font-size:11px;color:#888;margin-bottom:4px}
-.mv{font-size:22px;font-weight:500}
-.stitle{font-size:11px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
-label{font-size:12px;color:#666;display:block;margin-bottom:3px;margin-top:8px}
+.mv{font-size:20px;font-weight:600}
+.stitle{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+label{font-size:12px;color:#555;display:block;margin-bottom:3px;margin-top:8px}
 input[type=number],input[type=text],select,textarea{width:100%;padding:6px 10px;border:1px solid #ddd;border-radius:8px;font-size:12px;background:#fff;color:#1a1a1a}
-textarea{resize:vertical;min-height:54px;line-height:1.5}
+textarea{resize:vertical;min-height:52px;line-height:1.5}
 .btn{padding:7px 16px;border:1px solid #ccc;border-radius:8px;background:transparent;color:#1a1a1a;font-size:12px;cursor:pointer;font-weight:500}
 .btn:hover{background:#f0f0f0}
-.btn-p{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
-.btn-p:hover{opacity:.85}
+.btn-p{background:#1a1a1a;color:#fff;border-color:#1a1a1a}.btn-p:hover{opacity:.85}
 .btn-red{background:#c0392b;color:#fff;border-color:#c0392b}
-.badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 9px;border-radius:8px}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:8px}
 .ba{background:#EAF3DE;color:#27500A}
 .bb{background:#E6F1FB;color:#0C447C}
 .bc{background:#FAEEDA;color:#633806}
 .bd{background:#FCEBEB;color:#791F1F}
 .bx{background:#F1EFE8;color:#444441}
-.locked-badge{background:#1a1a2e;color:#ffd700;font-size:11px;font-weight:600;padding:3px 10px;border-radius:8px;display:inline-block}
+.locked-badge{background:#1a1a2e;color:#ffd700;font-size:11px;font-weight:700;padding:3px 10px;border-radius:8px;display:inline-block}
 .frow{display:flex;gap:10px}.frow>div{flex:1}
 table{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
-th{text-align:left;padding:7px 8px;font-weight:500;font-size:11px;color:#888;border-bottom:1px solid #eee}
-td{padding:7px 8px;border-bottom:1px solid #eee;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
+th{text-align:left;padding:7px 8px;font-weight:600;font-size:11px;color:#888;border-bottom:1px solid #eee;background:#fafafa}
+td{padding:7px 8px;border-bottom:1px solid #eee;overflow:hidden;text-overflow:ellipsis;vertical-align:top}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:#fafafa}
 .prog{height:6px;border-radius:3px;background:#eee;overflow:hidden;margin-top:4px}
 .progf{height:100%;border-radius:3px;transition:width .3s}
-.kpi-row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid #eee;gap:8px}
-.kpi-row:last-child{border-bottom:none}
-.ki{display:flex;gap:6px;align-items:center;flex-shrink:0}
-.ki input{width:70px;text-align:center}
-.katt{font-size:12px;font-weight:500;min-width:44px;text-align:right}
 .ok{background:#EAF3DE;border:1px solid #C0DD97;border-radius:8px;padding:.5rem .75rem;font-size:12px;color:#27500A;margin-bottom:8px}
 .warn{background:#FAEEDA;border:1px solid #FAC775;border-radius:8px;padding:.5rem .75rem;font-size:12px;color:#633806;margin-bottom:8px}
 .info{background:#E6F1FB;border:1px solid #B5D4F4;border-radius:8px;padding:.5rem .75rem;font-size:12px;color:#0C447C;margin-bottom:8px}
-.dept-tag{font-size:10px;padding:2px 7px;border-radius:8px;font-weight:500;white-space:nowrap}
-.wt{font-size:10px;color:#888}
+.dept-tag{font-size:10px;padding:2px 7px;border-radius:8px;font-weight:600;white-space:nowrap}
 .lock-bar{background:#1a1a2e;border-radius:10px;padding:.75rem 1.25rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
-.month-pill{background:#ffd700;color:#1a1a2e;font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px}
+.month-pill{background:#ffd700;color:#1a1a2e;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px}
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center}
 .modal-bg.show{display:flex}
 .modal{background:#fff;border-radius:14px;padding:1.5rem;max-width:420px;width:90%}
 .modal h3{font-size:16px;margin-bottom:8px}
 .modal p{font-size:13px;color:#555;margin-bottom:16px;line-height:1.6}
 .modal-btns{display:flex;gap:8px;justify-content:flex-end}
+.kra-header{background:#1a1a2e;color:#fff;font-size:12px;font-weight:600;padding:7px 12px;border-radius:8px;margin:12px 0 8px}
+.kpi-block{border:1px solid #e5e5e5;border-radius:10px;padding:.75rem 1rem;margin-bottom:8px;background:#fff}
+.kpi-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px}
+.kpi-label{font-size:12px;font-weight:600;flex:1}
+.kpi-wt{font-size:10px;color:#888;white-space:nowrap}
+.kpi-score-box{text-align:center;flex-shrink:0}
+.kpi-score-box input{width:72px;font-size:15px;font-weight:700;text-align:center;border:1.5px solid #ddd;border-radius:8px;padding:5px}
+.score-label{font-size:10px;margin-top:3px;font-weight:600}
+.rubric-toggle{font-size:11px;color:#378ADD;cursor:pointer;margin-bottom:4px;display:inline-block}
+.rubric-box{font-size:11px;color:#555;background:#f8f8f8;border-radius:6px;padding:6px 8px;line-height:1.7;display:none}
+.rubric-box.open{display:block}
+.beh-block{border:1px solid #e5e5e5;border-radius:10px;padding:.75rem 1rem;margin-bottom:8px}
 .add-panel{border:1px dashed #ccc;background:#fafafa;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem}
+.score-summary-row{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:8px;margin-bottom:6px;font-size:13px}
+.rec-badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:8px;border:1px solid}
 </style>
 </head>
 <body>
@@ -77,8 +86,8 @@ tr:hover td{background:#fafafa}
 </div>
 
 <div class="wrap">
-<h2 style="font-size:18px;font-weight:500;margin-bottom:4px">🏆 A-Player KPI Scoring Dashboard</h2>
-<p style="font-size:12px;color:#888;margin-bottom:1rem">Top Bliss Solutions · KPI attainment 60% + Behavior 30% + Attendance 10%</p>
+<h1>🏆 TopBliss Solutions — A-Player Scoring Dashboard</h1>
+<p class="sub">KPI Performance (65%) + Behavioral & Values (35%) · Attendance scored by HR inside Behavioral section</p>
 
 <!-- MONTH SETUP -->
 <div id="monthSetup" class="card">
@@ -123,36 +132,31 @@ tr:hover td{background:#fafafa}
     <div class="stitle" style="margin-bottom:0">➕ Add missing employee or KPI</div>
     <button class="btn" onclick="toggleAddPanel()" style="font-size:11px;padding:4px 10px">Close</button>
   </div>
-  <div class="info" style="margin-bottom:12px">Adding here will <strong>not affect</strong> any scores already saved. Existing records stay as-is.</div>
+  <div class="info">Adding here will <strong>not affect</strong> any scores already saved. Existing records stay as-is.</div>
   <div class="g2" style="gap:20px">
     <div>
-      <div style="font-size:12px;font-weight:500;margin-bottom:8px">Add missing employee</div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:8px">Add missing employee</div>
       <label>Full name</label><input type="text" id="newEmpName" placeholder="e.g. Cruz Jane">
       <label>Department</label>
-      <select id="newEmpDept">
-        <option value="">Select...</option>
+      <select id="newEmpDept"><option value="">Select...</option>
         <option>Telesales</option><option>Chat Sales</option><option>Marketplace</option>
         <option>Logistics</option><option>Creatives</option><option>Distribution Sales</option>
         <option>Marketing</option><option>Customer Intel.</option>
       </select>
-      <label>Position</label>
-      <select id="newEmpPos"><option value="">Select position...</option></select>
+      <label>Position</label><select id="newEmpPos"><option value="">Select position...</option></select>
       <button class="btn btn-p" style="margin-top:10px;width:100%" onclick="addEmployee()">Add employee</button>
       <div id="addEmpMsg" style="font-size:11px;margin-top:6px"></div>
     </div>
     <div>
-      <div style="font-size:12px;font-weight:500;margin-bottom:8px">Add missing KPI to a position</div>
-      <div style="font-size:11px;color:#f57f17;background:#fff9c4;border-radius:6px;padding:5px 8px;margin-bottom:8px">⚠️ Only applies to employees scored <em>after</em> this point. Saved scores are unchanged.</div>
-      <label>Position</label>
-      <select id="kpiPos"><option value="">Select position...</option></select>
+      <div style="font-size:12px;font-weight:600;margin-bottom:8px">Add missing KPI to a position</div>
+      <div style="font-size:11px;color:#f57f17;background:#fff9c4;border-radius:6px;padding:5px 8px;margin-bottom:8px">⚠️ Only applies to employees scored <em>after</em> this point. Saved scores unchanged.</div>
+      <label>Position</label><select id="kpiPos"><option value="">Select position...</option></select>
+      <label>KRA (e.g. KRA 1 — Revenue)</label><input type="text" id="newKpiKra" placeholder="KRA label">
       <label>KPI label</label><input type="text" id="newKpiLabel" placeholder="e.g. Weekly Report Accuracy">
       <label>Weight (%)</label><input type="number" id="newKpiWeight" placeholder="e.g. 10" min="1" max="100">
-      <label>Unit</label><input type="text" id="newKpiUnit" placeholder="e.g. %, pcs, ₱">
-      <label>Target value</label><input type="number" id="newKpiTarget" placeholder="e.g. 95">
-      <div style="display:flex;align-items:center;gap:6px;margin-top:8px">
-        <input type="checkbox" id="newKpiLower" style="width:auto;margin:0">
-        <label style="margin:0;font-size:12px">Lower is better</label>
-      </div>
+      <label>Target description</label><input type="text" id="newKpiTarget" placeholder="e.g. ≥95% on-time">
+      <label>Rubric (use | to separate ranges)</label>
+      <textarea id="newKpiRubric" placeholder="91–100: ... | 76–90: ... | 61–75: ..."></textarea>
       <button class="btn btn-p" style="margin-top:10px;width:100%" onclick="addKpi()">Add KPI</button>
       <div id="addKpiMsg" style="font-size:11px;margin-top:6px"></div>
     </div>
@@ -174,30 +178,32 @@ tr:hover td{background:#fafafa}
     <div class="metric"><div class="ml">Eligible employees</div><div class="mv" id="ov_elig">20</div></div>
     <div class="metric"><div class="ml">Scored this month</div><div class="mv" id="ov_scored">0</div></div>
     <div class="metric"><div class="ml">A Players</div><div class="mv" style="color:#27500A" id="ov_a">0</div></div>
-    <div class="metric"><div class="ml">Avg KPI attainment</div><div class="mv" id="ov_kpi">—</div></div>
+    <div class="metric"><div class="ml">Avg final score</div><div class="mv" id="ov_avg">—</div></div>
   </div>
   <div class="g2">
     <div class="card">
-      <div class="stitle">Scoring weights</div>
+      <div class="stitle">Score computation</div>
       <div style="display:flex;flex-direction:column;gap:8px">
-        <div><div style="display:flex;justify-content:space-between;font-size:12px"><span>KPI attainment</span><strong>60%</strong></div><div class="prog"><div class="progf" style="width:60%;background:#378ADD"></div></div></div>
-        <div><div style="display:flex;justify-content:space-between;font-size:12px"><span>Behavior + culture</span><strong>30%</strong></div><div class="prog"><div class="progf" style="width:30%;background:#1D9E75"></div></div></div>
-        <div><div style="display:flex;justify-content:space-between;font-size:12px"><span>Attendance</span><strong>10%</strong></div><div class="prog"><div class="progf" style="width:10%;background:#EF9F27"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font-size:12px"><span>KPI Performance (raw score × 65%)</span><strong>65%</strong></div><div class="prog"><div class="progf" style="width:65%;background:#378ADD"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font-size:12px"><span>Behavioral & Values (raw score × 35%)</span><strong>35%</strong></div><div class="prog"><div class="progf" style="width:35%;background:#8e44ad"></div></div></div>
       </div>
       <div style="margin-top:10px;font-size:11px;color:#888;border-top:1px solid #eee;padding-top:8px">
-        Gate: 100% attendance + 0 tardiness required<br>
-        KPI weights are role-specific per position<br>
-        Behavior requires written evidence
+        Final Score = (KPI Raw × 65%) + (Behavioral Raw × 35%)<br>
+        Attendance & Punctuality is scored by HR inside Behavioral section (10% of behavioral)<br>
+        All KPI and behavioral scores are on a 0–100% scale with rubric guidance
       </div>
     </div>
     <div class="card">
-      <div class="stitle">Classification</div>
-      <div style="display:flex;flex-direction:column;gap:6px">
-        <div style="display:flex;align-items:center;gap:8px"><span class="badge ba">A Player</span><span style="font-size:12px">85–100 · KPI ≥90% · Behavior ≥4</span></div>
-        <div style="display:flex;align-items:center;gap:8px"><span class="badge bb">B Player</span><span style="font-size:12px">70–84 · Good KPI + strong culture</span></div>
-        <div style="display:flex;align-items:center;gap:8px"><span class="badge bc">C Player</span><span style="font-size:12px">High KPI + culture avg &lt;3</span></div>
-        <div style="display:flex;align-items:center;gap:8px"><span class="badge bd">D Player</span><span style="font-size:12px">Low KPI + low behavior</span></div>
-        <div style="display:flex;align-items:center;gap:8px"><span class="badge bx">Blocked</span><span style="font-size:12px">Any absence or tardiness</span></div>
+      <div class="stitle">Score thresholds & recommendations</div>
+      <div style="display:flex;flex-direction:column;gap:5px;font-size:12px">
+        <div style="display:flex;gap:8px;align-items:center"><span class="badge ba">91–100%</span><span>Exceptional — sets the benchmark</span></div>
+        <div style="display:flex;gap:8px;align-items:center"><span class="badge bb">76–90%</span><span>Above Average — exceeds expectations</span></div>
+        <div style="display:flex;gap:8px;align-items:center"><span class="badge" style="background:#E8F5E9;color:#1B5E20">61–75%</span><span>Meets Expectations — solid & reliable</span></div>
+        <div style="display:flex;gap:8px;align-items:center"><span class="badge bc">41–60%</span><span>Needs Improvement — coaching required</span></div>
+        <div style="display:flex;gap:8px;align-items:center"><span class="badge bd">0–40%</span><span>Unsatisfactory — corrective action needed</span></div>
+        <div style="border-top:1px solid #eee;padding-top:6px;margin-top:2px;color:#888">
+          Regularization min: 75% · Merit eligible: 76%+ · PIP trigger: &lt;61% for 2 consecutive months
+        </div>
       </div>
     </div>
   </div>
@@ -207,53 +213,82 @@ tr:hover td{background:#fafafa}
 <!-- SCORE ENTRY -->
 <div id="tab-entry" class="sec">
   <div id="lockedNotice" class="warn" style="display:none">🔒 This period is locked. No edits allowed.</div>
+
+  <!-- Employee info -->
   <div class="card">
-    <div class="stitle">Employee</div>
+    <div class="stitle">Employee information</div>
     <div class="frow">
       <div><label>Select employee</label><select id="empSel" onchange="loadEmp()"><option value="">Choose...</option></select></div>
-      <div><label>Dept / Position</label><input type="text" id="empDept" readonly style="background:#f8f8f8"></div>
-      <div><label>Evaluated by</label><input type="text" id="evalBy" placeholder="Team leader name"></div>
+      <div><label>Department / Position</label><input type="text" id="empDept" readonly style="background:#f8f8f8"></div>
+      <div><label>Evaluated by</label><input type="text" id="evalBy" placeholder="e.g. Jennylyn Jebulan"></div>
+    </div>
+    <div class="frow" style="margin-top:8px">
+      <div><label>Employment status</label>
+        <select id="empStatus">
+          <option value="probationary">Probationary</option>
+          <option value="regular">Regular</option>
+        </select>
+      </div>
+      <div><label>Probationary month # (if applicable)</label>
+        <select id="proMonth">
+          <option value="">N/A</option>
+          <option>Month 1 of 6</option><option>Month 2 of 6</option><option>Month 3 of 6</option>
+          <option>Month 4 of 6</option><option>Month 5 of 6</option><option>Month 6 of 6</option>
+        </select>
+      </div>
+      <div><label>Date submitted</label><input type="text" id="submitDate" placeholder="e.g. April 8, 2026"></div>
     </div>
   </div>
+
+  <!-- KPI Section -->
   <div class="card">
-    <div class="stitle">Attendance gate — 100% + 0 tardiness required</div>
-    <div class="frow">
-      <div><label>Working days</label><input type="number" id="wDays" value="23" min="1" oninput="calcAll()"></div>
-      <div><label>Days present</label><input type="number" id="dPresent" value="23" min="0" oninput="calcAll()"></div>
-      <div><label>Times late</label><input type="number" id="tLate" value="0" min="0" oninput="calcAll()"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <div class="stitle" style="margin-bottom:0">Section 2 — KPI performance</div>
+      <span style="font-size:11px;font-weight:600;background:#E6F1FB;color:#0C447C;padding:3px 10px;border-radius:8px">Weight: 65% of final score</span>
     </div>
-    <div id="gateMsg" style="margin-top:8px"></div>
-  </div>
-  <div class="card">
-    <div class="stitle">KPI attainment — actual vs target (role-weighted)</div>
-    <p style="font-size:11px;color:#888;margin-bottom:10px">Each KPI carries its own weight. Enter actual and target — weighted attainment is auto-computed.</p>
-    <div id="kpiRows"><p style="font-size:12px;color:#aaa">Select an employee to load KPIs.</p></div>
-    <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid #eee">
-      <span style="font-size:12px;color:#888">KPI score (60%)</span><strong id="kpiScore">— / 60</strong>
+    <p style="font-size:11px;color:#888;margin-bottom:8px">Score each KPI 0–100% using the rubric. KRA headers are for reference only.</p>
+    <div id="kpiSection"><p style="font-size:12px;color:#aaa">Select an employee to load their KPIs.</p></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding:10px 12px;background:#f0f4f8;border-radius:8px">
+      <span style="font-size:13px;font-weight:600">KPI Section Raw Score (weighted avg)</span>
+      <strong id="kpiRaw" style="font-size:16px;color:#0C447C">— %</strong>
     </div>
   </div>
+
+  <!-- Behavioral Section -->
   <div class="card">
-    <div class="stitle">Behavior & culture (30% — evidence required per indicator)</div>
-    <div id="behavRows"><p style="font-size:12px;color:#aaa">Select an employee to load behavior indicators.</p></div>
-    <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid #eee">
-      <span style="font-size:12px;color:#888">Behavior score (30%)</span><strong id="behavScore">— / 30</strong>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <div class="stitle" style="margin-bottom:0">Section 3 — Behavioral & values</div>
+      <span style="font-size:11px;font-weight:600;background:#EEEDFE;color:#3C3489;padding:3px 10px;border-radius:8px">Weight: 35% of final score</span>
+    </div>
+    <p style="font-size:11px;color:#888;margin-bottom:8px">Score each value 0–100%. Attendance & Punctuality row is filled by HR Officer.</p>
+    <div id="behavSection"><p style="font-size:12px;color:#aaa">Select an employee to load behavior indicators.</p></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding:10px 12px;background:#f4f0f8;border-radius:8px">
+      <span style="font-size:13px;font-weight:600">Behavioral Section Raw Score (weighted avg)</span>
+      <strong id="behavRaw" style="font-size:16px;color:#3C3489">— %</strong>
     </div>
   </div>
+
+  <!-- Score computation -->
   <div class="card">
-    <div class="stitle">Live preview</div>
-    <div class="g4" style="margin-bottom:10px">
-      <div class="metric"><div class="ml">KPI /60</div><div class="mv" id="rv_kpi">—</div></div>
-      <div class="metric"><div class="ml">Behavior /30</div><div class="mv" id="rv_beh">—</div></div>
-      <div class="metric"><div class="ml">Attendance /10</div><div class="mv" id="rv_att">—</div></div>
-      <div class="metric"><div class="ml">Total /100</div><div class="mv" id="rv_tot">—</div></div>
+    <div class="stitle">Score computation & recommendation</div>
+    <div class="g3" style="margin-bottom:12px">
+      <div class="metric"><div class="ml">KPI Raw Score</div><div class="mv" id="rv_kpiRaw">—</div></div>
+      <div class="metric"><div class="ml">Behavioral Raw Score</div><div class="mv" id="rv_behRaw">—</div></div>
+      <div class="metric"><div class="ml">Final Overall Score</div><div class="mv" id="rv_final" style="font-size:26px">—</div></div>
     </div>
-    <div style="margin-bottom:10px"><div class="prog"><div class="progf" id="totalBar" style="width:0%;background:#378ADD"></div></div></div>
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-      <span style="font-size:12px;color:#888">Classification:</span>
-      <span id="classBadge" class="badge bx">—</span>
-      <span id="kpiAvgDisp" style="font-size:11px;color:#888"></span>
+    <div style="background:#f8f8f8;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="color:#888">KPI weighted (raw × 65%)</span><span id="kpiWeighted" style="font-weight:600">—</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="color:#888">Behavioral weighted (raw × 35%)</span><span id="behWeighted" style="font-weight:600">—</span></div>
+      <div style="border-top:1px solid #ddd;padding-top:4px;display:flex;justify-content:space-between"><span style="font-weight:600">Final Overall Score</span><span id="finalCalc" style="font-weight:700;color:#1a1a1a">—</span></div>
     </div>
-    <div style="display:flex;gap:8px">
+    <div style="margin-bottom:12px">
+      <div class="prog" style="height:10px"><div class="progf" id="finalBar" style="width:0%"></div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap">
+      <span style="font-size:12px;color:#888">Rating:</span><span id="ratingBadge" class="badge bx">—</span>
+      <span id="recBadge" style="font-size:11px;color:#888"></span>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px">
       <button class="btn btn-p" id="saveBtn" onclick="saveScore()">Save score</button>
       <button class="btn" onclick="resetEntry()">Reset</button>
     </div>
@@ -265,8 +300,9 @@ tr:hover td{background:#fafafa}
 <div id="tab-ranking" class="sec">
   <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
     <select id="rankFilter" onchange="renderRanking()" style="width:160px">
-      <option value="">All classifications</option>
-      <option>A Player</option><option>B Player</option><option>C Player</option><option>D Player</option><option>Blocked</option>
+      <option value="">All ratings</option>
+      <option>Exceptional</option><option>Above Average</option><option>Meets Expectations</option>
+      <option>Needs Improvement</option><option>Unsatisfactory</option>
     </select>
     <select id="deptFilter" onchange="renderRanking()" style="width:160px"><option value="">All departments</option></select>
   </div>
@@ -274,12 +310,11 @@ tr:hover td{background:#fafafa}
   <div class="card" style="padding:0;overflow-x:auto">
     <table>
       <thead><tr>
-        <th style="width:32px">#</th><th style="width:145px">Name</th><th style="width:90px">Dept</th>
-        <th style="width:58px">KPI avg</th><th style="width:52px">KPI/60</th>
-        <th style="width:55px">Beh/30</th><th style="width:50px">Att/10</th>
-        <th style="width:52px">Total</th><th style="width:88px">Class.</th>
+        <th style="width:32px">#</th><th style="width:150px">Name</th><th style="width:100px">Dept</th>
+        <th style="width:65px">KPI raw</th><th style="width:70px">Behav raw</th>
+        <th style="width:75px">Final score</th><th style="width:110px">Rating</th><th style="width:100px">Recommendation</th>
       </tr></thead>
-      <tbody id="rankBody"><tr><td colspan="9" style="text-align:center;padding:2rem;color:#888">No scores yet.</td></tr></tbody>
+      <tbody id="rankBody"><tr><td colspan="8" style="text-align:center;padding:2rem;color:#888">No scores yet.</td></tr></tbody>
     </table>
   </div>
 </div>
@@ -288,7 +323,7 @@ tr:hover td{background:#fafafa}
 <div id="tab-history" class="sec">
   <div class="card">
     <div class="stitle">Locked evaluation records</div>
-    <p style="font-size:12px;color:#888;margin-bottom:12px">Finalized months are permanently stored here.</p>
+    <p style="font-size:12px;color:#888;margin-bottom:12px">Finalized months are permanently stored here and cannot be changed.</p>
     <div id="historyContent" style="font-size:12px;color:#888">No locked records yet.</div>
   </div>
 </div>
@@ -296,254 +331,350 @@ tr:hover td{background:#fafafa}
 <!-- KPI REFERENCE -->
 <div id="tab-kpiref" class="sec">
   <div class="card">
-    <div class="stitle">KPI framework — role-specific</div>
-    <p style="font-size:12px;color:#888;margin-bottom:12px">Weights and targets per position. Team leaders enter actual vs target monthly.</p>
+    <div class="stitle">KPI framework per position — with rubrics</div>
+    <p style="font-size:12px;color:#888;margin-bottom:12px">Role-specific KPIs organized by KRA. Click ▸ to expand rubric for any KPI.</p>
     <div id="kpiRefContent"></div>
   </div>
 </div>
-
-</div><!-- /wrap -->
+</div>
 
 <script>
-// ── KPI DATA ─────────────────────────────────────────────────
+// ── KPI DATA — per position with KRA grouping ──────────────────
 const KPI_MAP = {
-  "Telesales Trainee":[
-    {label:"Sales Conversion Rate",weight:30,unit:"%",target:15},
-    {label:"Daily Sales Volume / Quota",weight:25,unit:"pcs",target:20},
-    {label:"Call Productivity",weight:15,unit:"calls",target:40},
-    {label:"Follow-up Completion",weight:10,unit:"%",target:90},
-    {label:"QA Score",weight:10,unit:"%",target:85},
-    {label:"Data Accuracy",weight:10,unit:"%",target:98},
-  ],
-  "Telesales Team Leader":[
-    {label:"Customer Retention Rate",weight:25,unit:"%",target:80},
-    {label:"Team Telesales Success Rate",weight:20,unit:"%",target:75},
-    {label:"Team Quota Achievement",weight:20,unit:"%",target:100},
-    {label:"Reactivation Rate",weight:10,unit:"%",target:20},
-    {label:"Team QA Average",weight:10,unit:"%",target:85},
-    {label:"Reporting Accuracy",weight:10,unit:"%",target:98},
-    {label:"Call Productivity Monitoring",weight:5,unit:"%",target:90},
-  ],
-  "Telesales Supervisor":[
-    {label:"% of Database Activated",weight:20,unit:"%",target:30},
-    {label:"Revenue from Retention Programs",weight:20,unit:"₱",target:100000},
-    {label:"Reactivation Rate",weight:15,unit:"%",target:20},
-    {label:"Repeat Purchase Rate",weight:15,unit:"%",target:40},
-    {label:"Campaign Conversion Rate",weight:10,unit:"%",target:15},
-    {label:"LTV Growth",weight:10,unit:"%",target:10},
-    {label:"Cost per Reactivation",weight:10,unit:"₱",target:50,lower:true},
-  ],
-  "Chat Sales Agent":[
-    {label:"Sales Conversion Rate",weight:30,unit:"%",target:20},
-    {label:"Daily Sales Volume / Quota",weight:25,unit:"pcs",target:25},
-    {label:"Response Time",weight:15,unit:"min",target:3,lower:true},
-    {label:"Revenue Generated",weight:15,unit:"₱",target:30000},
-    {label:"Chat Handling Productivity",weight:10,unit:"chats",target:60},
-    {label:"Data Accuracy",weight:5,unit:"%",target:98},
-  ],
-  "Chat Sales Supervisor":[
-    {label:"Chat Sales Revenue vs Target",weight:35,unit:"%",target:100},
-    {label:"Conversion Rate",weight:15,unit:"%",target:20},
-    {label:"Response Time",weight:10,unit:"min",target:3,lower:true},
-    {label:"Customer Coverage Rate",weight:10,unit:"%",target:90},
-    {label:"Agent Sales Performance Compliance",weight:10,unit:"%",target:90},
-    {label:"Report Accuracy",weight:5,unit:"%",target:98},
-    {label:"Coaching Effectiveness",weight:5,unit:"%",target:80},
-    {label:"Staff Retention",weight:5,unit:"%",target:90},
-    {label:"Training Completion",weight:5,unit:"%",target:100},
-  ],
-  "QA Analyst":[
-    {label:"QA Audit Accuracy",weight:20,unit:"%",target:95},
-    {label:"QA Coverage",weight:15,unit:"%",target:90},
-    {label:"Critical Error Detection",weight:15,unit:"%",target:95},
-    {label:"Agent QA Score Improvement",weight:15,unit:"%",target:10},
-    {label:"Coaching Effectiveness Post-QA",weight:10,unit:"%",target:80},
-    {label:"Report Submission Timeliness",weight:10,unit:"%",target:100},
-    {label:"CSAT Correlation",weight:10,unit:"%",target:85},
-    {label:"RTS Reduction Impact",weight:5,unit:"%",target:5},
-  ],
-  "CSR":[
-    {label:"RTS Rate",weight:25,unit:"%",target:5,lower:true},
-    {label:"Successful Delivery Rate",weight:20,unit:"%",target:95},
-    {label:"Order Confirmation Rate",weight:15,unit:"%",target:98},
-    {label:"CSAT",weight:15,unit:"%",target:90},
-    {label:"First Response Time",weight:10,unit:"hrs",target:1,lower:true},
-    {label:"Post-Delivery Follow-up",weight:10,unit:"%",target:90},
-    {label:"Order Cancellation Prevention",weight:5,unit:"%",target:95},
-  ],
-  "Distribution Head":[
-    {label:"Distributor Sales Growth Rate",weight:20,unit:"%",target:10},
-    {label:"Distributor Retention Rate",weight:15,unit:"%",target:90},
-    {label:"Weekly Payout Accuracy",weight:15,unit:"%",target:100},
-    {label:"Reactivation Success Rate",weight:10,unit:"%",target:20},
-    {label:"Order Processing SLA",weight:10,unit:"%",target:95},
-    {label:"Concern Resolution SLA",weight:10,unit:"%",target:90},
-    {label:"Promo Participation Rate",weight:10,unit:"%",target:80},
-    {label:"Check-in Completion Rate",weight:10,unit:"%",target:100},
-  ],
-  "Creative Head":[
-    {label:"Scripts Submitted Before Shoot Day",weight:25,unit:"%",target:100},
-    {label:"Hook Variations per Script",weight:20,unit:"pcs",target:3},
-    {label:"Weekly Script Output Volume",weight:20,unit:"pcs",target:5},
-    {label:"Winning Script Contribution",weight:20,unit:"%",target:20},
-    {label:"Organic Note Inclusion",weight:10,unit:"%",target:100},
-    {label:"Shoot Day Direction Quality",weight:5,unit:"%",target:90},
-  ],
-  "Ads Strategist":[
-    {label:"Cost Per Lead (CPL)",weight:20,unit:"₱",target:50,lower:true},
-    {label:"Qualified Lead Volume",weight:15,unit:"leads",target:100},
-    {label:"CTR",weight:15,unit:"%",target:2},
-    {label:"ROAS",weight:15,unit:"x",target:3},
-    {label:"Conversion Rate Lead-to-Sale",weight:10,unit:"%",target:10},
-    {label:"Winning Campaign Identification",weight:10,unit:"pcs",target:2},
-    {label:"Budget Utilization Rate",weight:10,unit:"%",target:95},
-    {label:"Weekly Scoreboard Submission",weight:5,unit:"%",target:100},
-  ],
-  "Video Editor":[
-    {label:"Monthly Video Output Volume",weight:25,unit:"pcs",target:20},
-    {label:"Daily Ad Creative Output",weight:20,unit:"pcs",target:1},
-    {label:"Hook Variations per Raw Clip",weight:15,unit:"pcs",target:3},
-    {label:"On-Time Delivery Rate",weight:20,unit:"%",target:95},
-    {label:"Creative Iteration Speed",weight:10,unit:"hrs",target:24,lower:true},
-    {label:"Winning Creative Contribution",weight:10,unit:"%",target:15},
-  ],
-  "Senior Video Editor":[
-    {label:"Monthly Video Output Volume",weight:25,unit:"pcs",target:25},
-    {label:"Daily Ad Creative Output",weight:20,unit:"pcs",target:2},
-    {label:"Hook Variations per Raw Clip",weight:15,unit:"pcs",target:4},
-    {label:"On-Time Delivery Rate",weight:20,unit:"%",target:98},
-    {label:"Creative Iteration Speed",weight:10,unit:"hrs",target:12,lower:true},
-    {label:"Winning Creative Contribution",weight:10,unit:"%",target:20},
-  ],
-  "Graphic Artist":[
-    {label:"Monthly Output Volume",weight:25,unit:"pcs",target:20},
-    {label:"Daily Ad Creative Output",weight:20,unit:"pcs",target:2},
-    {label:"Hook Variations per Raw Clip",weight:15,unit:"pcs",target:3},
-    {label:"On-Time Delivery Rate",weight:20,unit:"%",target:95},
-    {label:"Creative Iteration Speed",weight:10,unit:"hrs",target:24,lower:true},
-    {label:"Winning Creative Contribution",weight:10,unit:"%",target:10},
-  ],
-  "Fulfillment Associate":[
-    {label:"Order Process Accuracy Rate",weight:20,unit:"%",target:98},
-    {label:"Shipping Accuracy Rate",weight:15,unit:"%",target:98},
-    {label:"Completion Rate",weight:10,unit:"%",target:95},
-    {label:"Order Fulfillment Time Rate",weight:10,unit:"%",target:95},
-    {label:"Order Error Rate",weight:10,unit:"%",target:2,lower:true},
-    {label:"Duplicate Entries Rate",weight:10,unit:"%",target:1,lower:true},
-    {label:"Customer Complaints Rate",weight:10,unit:"%",target:2,lower:true},
-    {label:"Backlog of Orders Rate",weight:5,unit:"%",target:5,lower:true},
-    {label:"Team Collaboration Rate",weight:5,unit:"%",target:90},
-  ],
-  "Logistics Processor":[
-    {label:"Accuracy of Dispatch Orders",weight:15,unit:"%",target:98},
-    {label:"Order Process Accuracy Rate",weight:20,unit:"%",target:98},
-    {label:"Shipping Accuracy Rate",weight:15,unit:"%",target:98},
-    {label:"Completion Rate",weight:10,unit:"%",target:95},
-    {label:"Order Error Rate",weight:10,unit:"%",target:2,lower:true},
-    {label:"Duplicate Entries Rate",weight:10,unit:"%",target:1,lower:true},
-    {label:"Customer Complaints Rate",weight:10,unit:"%",target:2,lower:true},
-    {label:"Backlog of Orders Rate",weight:5,unit:"%",target:5,lower:true},
-    {label:"Team Collaboration Rate",weight:5,unit:"%",target:90},
-  ],
-  "Warehouse Trainee":[
-    {label:"Accuracy of Orders Fulfilled",weight:15,unit:"%",target:98},
-    {label:"Picking Efficiency Rate",weight:15,unit:"%",target:95},
-    {label:"Inventory Accuracy",weight:15,unit:"%",target:98},
-    {label:"Packing Efficiency Rate",weight:10,unit:"%",target:95},
-    {label:"Time to Stock Items",weight:10,unit:"hrs",target:4,lower:true},
-    {label:"Receiving Returned Parcels",weight:10,unit:"%",target:100},
-    {label:"Damaged Items Rate",weight:5,unit:"%",target:1,lower:true},
-    {label:"Equipment Handling Rate",weight:5,unit:"%",target:98},
-    {label:"Team Collaboration Rate",weight:5,unit:"%",target:90},
-    {label:"Attendance & Punctuality",weight:5,unit:"%",target:100},
-  ],
-  "Marketplace Supervisor":[
-    {label:"Marketplace Revenue Achievement",weight:25,unit:"%",target:100},
-    {label:"ROAS Performance",weight:20,unit:"x",target:10},
-    {label:"Market Proof Ready Campaigns",weight:10,unit:"pcs",target:4},
-    {label:"SOP Compliance",weight:10,unit:"%",target:100},
-    {label:"Fulfillment SLA",weight:10,unit:"%",target:95},
-    {label:"Operational Issue Resolution",weight:5,unit:"%",target:90},
-    {label:"TikTok Revenue Contribution Growth",weight:10,unit:"%",target:10},
-    {label:"Affiliate Sales Growth",weight:5,unit:"%",target:10},
-    {label:"Team KPI Achievement Rate",weight:5,unit:"%",target:80},
-  ],
-  "TikTok Content Creator":[
-    {label:"Daily Revenue Target (ROAS 10+)",weight:30,unit:"₱",target:10000},
-    {label:"Content Consistency",weight:20,unit:"posts",target:30},
-    {label:"Shop Health Excellence",weight:20,unit:"%",target:100},
-    {label:"Chat Response Rate",weight:15,unit:"%",target:90},
-    {label:"Zero Penalty & Violation",weight:10,unit:"violations",target:0,lower:true},
-    {label:"Live Selling Performance",weight:5,unit:"₱",target:5000},
-  ],
-  "Live Seller":[
-    {label:"Daily Sales Target Achievement",weight:40,unit:"%",target:100},
-    {label:"Zero Violation & Zero Penalty",weight:25,unit:"violations",target:0,lower:true},
-    {label:"Live Session Completion Rate",weight:15,unit:"%",target:100},
-    {label:"Viewer Engagement & Retention",weight:10,unit:"%",target:30},
-    {label:"Live Moderation Support",weight:10,unit:"%",target:90},
-  ],
-  "Marketplace Associate":[
-    {label:"Marketplace Revenue Achievement",weight:25,unit:"%",target:100},
-    {label:"ROAS Performance",weight:20,unit:"x",target:8},
-    {label:"SOP Compliance",weight:15,unit:"%",target:100},
-    {label:"Fulfillment SLA",weight:15,unit:"%",target:95},
-    {label:"Content Output",weight:15,unit:"pcs",target:20},
-    {label:"Operational Issue Resolution",weight:10,unit:"%",target:90},
-  ],
+  "Telesales Trainee":{
+    kras:[
+      {kra:"KRA 1 — Sales Execution",kpis:[
+        {label:"Sales Conversion Rate",weight:30,target:"≥15% conversion",rubric:"91–100: Consistently hits or exceeds 15%+ | 76–90: 12–14.9% conversion | 61–75: 9–11.9% | 41–60: 5–8.9% | 0–40: Below 5%"},
+        {label:"Daily Sales Volume / Quota",weight:25,target:"Hit daily sales quota",rubric:"91–100: Consistently hits/exceeds daily quota | 76–90: Hits 85–99% of quota | 61–75: Hits 70–84% | 41–60: Hits 50–69% | 0–40: Below 50% of quota"},
+        {label:"Call Productivity",weight:15,target:"≥40 calls/day",rubric:"91–100: 40+ calls/day consistently | 76–90: 35–39 calls | 61–75: 28–34 calls | 41–60: 20–27 calls | 0–40: Below 20 calls"},
+      ]},
+      {kra:"KRA 2 — Quality & Compliance",kpis:[
+        {label:"Follow-up Completion Rate",weight:10,target:"≥90% follow-ups completed",rubric:"91–100: 95–100% follow-up rate | 76–90: 88–94% | 61–75: 78–87% | 41–60: 60–77% | 0–40: Below 60%"},
+        {label:"QA Score",weight:10,target:"≥85% QA average",rubric:"91–100: 95–100% QA score | 76–90: 88–94% | 61–75: 80–87% | 41–60: 65–79% | 0–40: Below 65%"},
+        {label:"Data Accuracy",weight:10,target:"≥98% data accuracy",rubric:"91–100: 99–100% accuracy | 76–90: 96–98% | 61–75: 90–95% | 41–60: 75–89% | 0–40: Below 75%"},
+      ]},
+    ]
+  },
+  "Telesales Team Leader":{
+    kras:[
+      {kra:"KRA 1 — Team Sales Performance",kpis:[
+        {label:"Customer Retention Rate",weight:25,target:"≥80% customer retention",rubric:"91–100: 90%+ retention | 76–90: 80–89% | 61–75: 68–79% | 41–60: 50–67% | 0–40: Below 50%"},
+        {label:"Team Telesales Success Rate",weight:20,target:"≥75% team success rate",rubric:"91–100: 85%+ team success rate | 76–90: 75–84% | 61–75: 62–74% | 41–60: 45–61% | 0–40: Below 45%"},
+        {label:"Team Quota Achievement",weight:20,target:"100% team quota hit",rubric:"91–100: Team hits 100%+ quota | 76–90: 85–99% | 61–75: 70–84% | 41–60: 50–69% | 0–40: Below 50%"},
+      ]},
+      {kra:"KRA 2 — Quality & Reporting",kpis:[
+        {label:"Reactivation Rate",weight:10,target:"≥20% reactivation",rubric:"91–100: 25%+ reactivation | 76–90: 20–24% | 61–75: 14–19% | 41–60: 8–13% | 0–40: Below 8%"},
+        {label:"Team QA Average",weight:10,target:"≥85% QA average",rubric:"91–100: 95–100% | 76–90: 85–94% | 61–75: 75–84% | 41–60: 60–74% | 0–40: Below 60%"},
+        {label:"Reporting Accuracy",weight:10,target:"≥98% report accuracy",rubric:"91–100: 100% accurate reports submitted on time | 76–90: 95–99% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+        {label:"Call Productivity Monitoring",weight:5,target:"≥90% team call compliance",rubric:"91–100: Full monitoring, 100% compliance | 76–90: 90–99% | 61–75: 78–89% | 41–60: 60–77% | 0–40: Below 60%"},
+      ]},
+    ]
+  },
+  "Telesales Supervisor":{
+    kras:[
+      {kra:"KRA 1 — Revenue & Retention",kpis:[
+        {label:"% of Database Activated",weight:20,target:"≥30% database activated",rubric:"91–100: 35%+ database activated | 76–90: 28–34% | 61–75: 20–27% | 41–60: 10–19% | 0–40: Below 10%"},
+        {label:"Revenue from Retention Programs",weight:20,target:"Hit monthly revenue target",rubric:"91–100: Exceeds revenue target | 76–90: 90–99% of target | 61–75: 75–89% | 41–60: 50–74% | 0–40: Below 50%"},
+        {label:"Reactivation Rate",weight:15,target:"≥20% reactivation rate",rubric:"91–100: 25%+ | 76–90: 20–24% | 61–75: 14–19% | 41–60: 8–13% | 0–40: Below 8%"},
+        {label:"Repeat Purchase Rate",weight:15,target:"≥40% repeat purchase rate",rubric:"91–100: 50%+ | 76–90: 40–49% | 61–75: 30–39% | 41–60: 18–29% | 0–40: Below 18%"},
+      ]},
+      {kra:"KRA 2 — Campaign Efficiency",kpis:[
+        {label:"Campaign Conversion Rate",weight:10,target:"≥15% campaign conversion",rubric:"91–100: 20%+ | 76–90: 15–19% | 61–75: 10–14% | 41–60: 5–9% | 0–40: Below 5%"},
+        {label:"LTV Growth",weight:10,target:"≥10% LTV growth monthly",rubric:"91–100: 15%+ growth | 76–90: 10–14% | 61–75: 5–9% | 41–60: 1–4% | 0–40: No growth or decline"},
+        {label:"Cost per Reactivation",weight:10,target:"≤₱50 per reactivation",rubric:"91–100: ≤₱30 | 76–90: ₱31–50 | 61–75: ₱51–75 | 41–60: ₱76–100 | 0–40: Above ₱100"},
+      ]},
+    ]
+  },
+  "Chat Sales Agent":{
+    kras:[
+      {kra:"KRA 1 — Sales Output",kpis:[
+        {label:"Sales Conversion Rate",weight:30,target:"≥20% chat conversion",rubric:"91–100: 25%+ | 76–90: 20–24% | 61–75: 14–19% | 41–60: 8–13% | 0–40: Below 8%"},
+        {label:"Daily Sales Volume / Quota",weight:25,target:"Hit daily quota",rubric:"91–100: Hits/exceeds quota daily | 76–90: 85–99% of quota | 61–75: 70–84% | 41–60: 50–69% | 0–40: Below 50%"},
+        {label:"Revenue Generated",weight:15,target:"Hit monthly revenue target",rubric:"91–100: Exceeds target | 76–90: 90–99% | 61–75: 75–89% | 41–60: 50–74% | 0–40: Below 50%"},
+      ]},
+      {kra:"KRA 2 — Quality & Efficiency",kpis:[
+        {label:"Response Time",weight:15,target:"≤3 min response time",rubric:"91–100: ≤1 min avg | 76–90: 1–3 min | 61–75: 3–5 min | 41–60: 5–8 min | 0–40: Over 8 min"},
+        {label:"Chat Handling Productivity",weight:10,target:"≥60 chats/day",rubric:"91–100: 70+ chats/day | 76–90: 60–69 | 61–75: 50–59 | 41–60: 35–49 | 0–40: Below 35"},
+        {label:"Data Accuracy",weight:5,target:"≥98% accuracy",rubric:"91–100: 99–100% | 76–90: 96–98% | 61–75: 90–95% | 41–60: 75–89% | 0–40: Below 75%"},
+      ]},
+    ]
+  },
+  "Chat Sales Supervisor":{
+    kras:[
+      {kra:"KRA 1 — Revenue & Conversion",kpis:[
+        {label:"Chat Sales Revenue vs Target",weight:35,target:"100% revenue target hit",rubric:"91–100: Exceeds revenue target | 76–90: 85–99% | 61–75: 70–84% | 41–60: 50–69% | 0–40: Below 50%"},
+        {label:"Conversion Rate",weight:15,target:"≥20% team conversion rate",rubric:"91–100: 25%+ | 76–90: 20–24% | 61–75: 14–19% | 41–60: 8–13% | 0–40: Below 8%"},
+      ]},
+      {kra:"KRA 2 — Operations & Team",kpis:[
+        {label:"Response Time SLA",weight:10,target:"≤3 min team avg",rubric:"91–100: ≤1 min | 76–90: 1–3 min | 61–75: 3–5 min | 41–60: 5–8 min | 0–40: Over 8 min"},
+        {label:"Customer Coverage Rate",weight:10,target:"≥90% coverage",rubric:"91–100: 97–100% | 76–90: 90–96% | 61–75: 80–89% | 41–60: 65–79% | 0–40: Below 65%"},
+        {label:"Agent Sales Performance Compliance",weight:10,target:"≥90% agent compliance",rubric:"91–100: 97–100% | 76–90: 90–96% | 61–75: 80–89% | 41–60: 65–79% | 0–40: Below 65%"},
+        {label:"Report Accuracy",weight:5,target:"≥98% accurate reports",rubric:"91–100: 100% on time & accurate | 76–90: 95–99% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+        {label:"Coaching Effectiveness",weight:5,target:"≥80% improvement rate",rubric:"91–100: Clear improvement in all coached agents | 76–90: Most agents improving | 61–75: Some improvement | 41–60: Minimal impact | 0–40: No measurable improvement"},
+        {label:"Staff Retention",weight:5,target:"≥90% team retention",rubric:"91–100: Zero voluntary turnover | 76–90: 90–99% retention | 61–75: 80–89% | 41–60: 65–79% | 0–40: Below 65%"},
+        {label:"Training Completion",weight:5,target:"100% training completion",rubric:"91–100: 100% on schedule | 76–90: 90–99% | 61–75: 78–89% | 41–60: 60–77% | 0–40: Below 60%"},
+      ]},
+    ]
+  },
+  "QA Analyst":{
+    kras:[
+      {kra:"KRA 1 — QA Coverage & Accuracy",kpis:[
+        {label:"QA Audit Accuracy",weight:20,target:"≥95% audit accuracy",rubric:"91–100: 99–100% accuracy | 76–90: 95–98% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+        {label:"QA Coverage",weight:15,target:"≥90% coverage rate",rubric:"91–100: 97–100% coverage | 76–90: 90–96% | 61–75: 80–89% | 41–60: 65–79% | 0–40: Below 65%"},
+        {label:"Critical Error Detection",weight:15,target:"≥95% detection rate",rubric:"91–100: 99–100% critical errors caught | 76–90: 95–98% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+      ]},
+      {kra:"KRA 2 — Improvement Impact",kpis:[
+        {label:"Agent QA Score Improvement",weight:15,target:"≥10% improvement monthly",rubric:"91–100: 15%+ agent improvement | 76–90: 10–14% | 61–75: 5–9% | 41–60: 1–4% | 0–40: No improvement"},
+        {label:"Coaching Effectiveness Post-QA",weight:10,target:"≥80% correction rate",rubric:"91–100: 95–100% corrections applied | 76–90: 80–94% | 61–75: 65–79% | 41–60: 45–64% | 0–40: Below 45%"},
+        {label:"Report Submission Timeliness",weight:10,target:"100% on-time submission",rubric:"91–100: 100% on time | 76–90: 90–99% | 61–75: 78–89% | 41–60: 60–77% | 0–40: Below 60%"},
+        {label:"CSAT Correlation",weight:10,target:"≥85% CSAT alignment",rubric:"91–100: QA scores directly correlate with high CSAT | 76–90: Strong correlation | 61–75: Moderate correlation | 41–60: Weak | 0–40: No measurable correlation"},
+        {label:"RTS Reduction Impact",weight:5,target:"Measurable RTS reduction",rubric:"91–100: 10%+ RTS reduction monthly | 76–90: 5–9% reduction | 61–75: 1–4% | 41–60: No change | 0–40: RTS increasing"},
+      ]},
+    ]
+  },
+  "CSR":{
+    kras:[
+      {kra:"KRA 1 — Delivery & Order Management",kpis:[
+        {label:"RTS Rate",weight:25,target:"≤5% RTS rate",rubric:"91–100: ≤2% RTS | 76–90: 2–5% | 61–75: 5–8% | 41–60: 8–12% | 0–40: Above 12%"},
+        {label:"Successful Delivery Rate",weight:20,target:"≥95% delivery success",rubric:"91–100: 99–100% | 76–90: 95–98% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+        {label:"Order Confirmation Rate",weight:15,target:"≥98% confirmed orders",rubric:"91–100: 99–100% | 76–90: 96–98% | 61–75: 90–95% | 41–60: 78–89% | 0–40: Below 78%"},
+      ]},
+      {kra:"KRA 2 — Customer Satisfaction",kpis:[
+        {label:"CSAT",weight:15,target:"≥90% satisfaction score",rubric:"91–100: 97–100% CSAT | 76–90: 90–96% | 61–75: 80–89% | 41–60: 65–79% | 0–40: Below 65%"},
+        {label:"First Response Time",weight:10,target:"≤1 hr first response",rubric:"91–100: ≤30 min | 76–90: 30–60 min | 61–75: 1–2 hrs | 41–60: 2–4 hrs | 0–40: Over 4 hrs"},
+        {label:"Post-Delivery Follow-up",weight:10,target:"≥90% follow-up rate",rubric:"91–100: 97–100% | 76–90: 90–96% | 61–75: 80–89% | 41–60: 65–79% | 0–40: Below 65%"},
+        {label:"Order Cancellation Prevention",weight:5,target:"≥95% cancellation prevented",rubric:"91–100: 99–100% | 76–90: 95–98% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+      ]},
+    ]
+  },
+  "Distribution Head":{
+    kras:[
+      {kra:"KRA 1 — Distributor Growth",kpis:[
+        {label:"Distributor Sales Growth Rate",weight:20,target:"≥10% MoM growth",rubric:"91–100: 15%+ growth | 76–90: 10–14% | 61–75: 5–9% | 41–60: 1–4% | 0–40: No growth or declining"},
+        {label:"Distributor Retention Rate",weight:15,target:"≥90% retention",rubric:"91–100: 97–100% | 76–90: 90–96% | 61–75: 80–89% | 41–60: 65–79% | 0–40: Below 65%"},
+        {label:"Reactivation Success Rate",weight:10,target:"≥20% reactivation",rubric:"91–100: 25%+ | 76–90: 20–24% | 61–75: 14–19% | 41–60: 8–13% | 0–40: Below 8%"},
+      ]},
+      {kra:"KRA 2 — Operations & Compliance",kpis:[
+        {label:"Weekly Payout Accuracy",weight:15,target:"100% payout accuracy",rubric:"91–100: Zero payout errors | 76–90: 1–2 minor errors | 61–75: 3–4 errors | 41–60: 5–6 errors | 0–40: Frequent payout issues"},
+        {label:"Order Processing SLA",weight:10,target:"≥95% orders within SLA",rubric:"91–100: 99–100% | 76–90: 95–98% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+        {label:"Concern Resolution SLA",weight:10,target:"≥90% resolved within SLA",rubric:"91–100: 97–100% | 76–90: 90–96% | 61–75: 80–89% | 41–60: 65–79% | 0–40: Below 65%"},
+        {label:"Promo Participation Rate",weight:10,target:"≥80% promo participation",rubric:"91–100: 95–100% | 76–90: 80–94% | 61–75: 65–79% | 41–60: 45–64% | 0–40: Below 45%"},
+        {label:"Check-in Completion Rate",weight:10,target:"100% check-ins completed",rubric:"91–100: 100% | 76–90: 90–99% | 61–75: 78–89% | 41–60: 60–77% | 0–40: Below 60%"},
+      ]},
+    ]
+  },
+  "Creative Head":{
+    kras:[
+      {kra:"KRA 1 — Script & Creative Output",kpis:[
+        {label:"Scripts Submitted Before Shoot Day",weight:25,target:"100% scripts on time",rubric:"91–100: 100% submitted before shoot day | 76–90: 90–99% | 61–75: 78–89% | 41–60: 60–77% | 0–40: Below 60%"},
+        {label:"Hook Variations per Script",weight:20,target:"≥3 variations per script",rubric:"91–100: 4+ variations per script | 76–90: 3 variations | 61–75: 2 variations | 41–60: 1 variation | 0–40: No variations — single hook only"},
+        {label:"Weekly Script Output Volume",weight:20,target:"≥5 scripts/week",rubric:"91–100: 7+ scripts/week | 76–90: 5–6 | 61–75: 3–4 | 41–60: 1–2 | 0–40: Zero output"},
+      ]},
+      {kra:"KRA 2 — Creative Effectiveness",kpis:[
+        {label:"Winning Script Contribution",weight:20,target:"≥20% winning scripts",rubric:"91–100: 30%+ of scripts become winners | 76–90: 20–29% | 61–75: 10–19% | 41–60: 4–9% | 0–40: Below 4%"},
+        {label:"Organic Note Inclusion",weight:10,target:"100% scripts include organic notes",rubric:"91–100: 100% | 76–90: 90–99% | 61–75: 78–89% | 41–60: 60–77% | 0–40: Below 60%"},
+        {label:"Shoot Day Direction Quality",weight:5,target:"≥90% shoot quality score",rubric:"91–100: Excellent direction, zero reshoots | 76–90: Good direction, minor adjustments | 61–75: Adequate, some reshoots | 41–60: Frequent reshoots | 0–40: Poor direction — major issues"},
+      ]},
+    ]
+  },
+  "Ads Strategist":{
+    kras:[
+      {kra:"KRA 1 — Ad Performance",kpis:[
+        {label:"Cost Per Lead (CPL)",weight:20,target:"≤₱50 CPL",rubric:"91–100: ≤₱30 | 76–90: ₱31–50 | 61–75: ₱51–75 | 41–60: ₱76–100 | 0–40: Above ₱100"},
+        {label:"ROAS",weight:15,target:"≥3x ROAS",rubric:"91–100: 5x+ ROAS | 76–90: 3–4.9x | 61–75: 2–2.9x | 41–60: 1–1.9x | 0–40: Below 1x — losing money"},
+        {label:"CTR",weight:15,target:"≥2% CTR",rubric:"91–100: 3%+ | 76–90: 2–2.99% | 61–75: 1–1.99% | 41–60: 0.5–0.99% | 0–40: Below 0.5%"},
+        {label:"Conversion Rate Lead-to-Sale",weight:10,target:"≥10% lead-to-sale",rubric:"91–100: 15%+ | 76–90: 10–14% | 61–75: 6–9% | 41–60: 2–5% | 0–40: Below 2%"},
+      ]},
+      {kra:"KRA 2 — Campaign Management",kpis:[
+        {label:"Qualified Lead Volume",weight:15,target:"≥100 qualified leads/month",rubric:"91–100: 130+ leads | 76–90: 100–129 | 61–75: 75–99 | 41–60: 45–74 | 0–40: Below 45"},
+        {label:"Winning Campaign Identification",weight:10,target:"≥2 winning campaigns/month",rubric:"91–100: 3+ winners identified | 76–90: 2 winners | 61–75: 1 winner | 41–60: Partial results | 0–40: No winners identified"},
+        {label:"Budget Utilization Rate",weight:10,target:"95% budget utilized efficiently",rubric:"91–100: 95–100% efficient utilization | 76–90: 88–94% | 61–75: 75–87% | 41–60: 55–74% | 0–40: Below 55% or severe overspend"},
+        {label:"Weekly Scoreboard Submission",weight:5,target:"100% on-time submission",rubric:"91–100: 100% on time | 76–90: 90–99% | 61–75: 78–89% | 41–60: 60–77% | 0–40: Below 60%"},
+      ]},
+    ]
+  },
+  "Video Editor":{
+    kras:[
+      {kra:"KRA 1 — Output Volume",kpis:[
+        {label:"Monthly Video Output Volume",weight:25,target:"≥20 videos/month",rubric:"91–100: 25+ videos | 76–90: 20–24 | 61–75: 14–19 | 41–60: 8–13 | 0–40: Below 8"},
+        {label:"Daily Ad Creative Output",weight:20,target:"≥1 ad creative/day",rubric:"91–100: 2+ per day | 76–90: 1 per day | 61–75: 1 every 1–2 days | 41–60: 1 every 3–4 days | 0–40: Rarely delivers"},
+        {label:"Hook Variations per Raw Clip",weight:15,target:"≥3 variations/clip",rubric:"91–100: 4+ variations | 76–90: 3 variations | 61–75: 2 variations | 41–60: 1 variation | 0–40: No variation"},
+      ]},
+      {kra:"KRA 2 — Quality & Delivery",kpis:[
+        {label:"On-Time Delivery Rate",weight:20,target:"≥95% on-time delivery",rubric:"91–100: 100% on time | 76–90: 95–99% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+        {label:"Creative Iteration Speed",weight:10,target:"≤24hr feedback turnaround",rubric:"91–100: ≤12 hrs | 76–90: 12–24 hrs | 61–75: 24–48 hrs | 41–60: 48–72 hrs | 0–40: Over 72 hrs"},
+        {label:"Winning Creative Contribution",weight:10,target:"≥15% of output becomes winners",rubric:"91–100: 25%+ winners | 76–90: 15–24% | 61–75: 8–14% | 41–60: 3–7% | 0–40: Below 3%"},
+      ]},
+    ]
+  },
+  "Senior Video Editor":{
+    kras:[
+      {kra:"KRA 1 — Output Volume",kpis:[
+        {label:"Monthly Video Output Volume",weight:25,target:"≥25 videos/month",rubric:"91–100: 30+ videos | 76–90: 25–29 | 61–75: 18–24 | 41–60: 10–17 | 0–40: Below 10"},
+        {label:"Daily Ad Creative Output",weight:20,target:"≥2 ad creatives/day",rubric:"91–100: 3+ per day | 76–90: 2 per day | 61–75: 1 per day | 41–60: 1 every 2 days | 0–40: Rarely delivers"},
+        {label:"Hook Variations per Raw Clip",weight:15,target:"≥4 variations/clip",rubric:"91–100: 5+ variations | 76–90: 4 variations | 61–75: 3 variations | 41–60: 2 variations | 0–40: 1 or no variation"},
+      ]},
+      {kra:"KRA 2 — Quality & Delivery",kpis:[
+        {label:"On-Time Delivery Rate",weight:20,target:"≥98% on-time delivery",rubric:"91–100: 100% on time | 76–90: 95–99% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+        {label:"Creative Iteration Speed",weight:10,target:"≤12hr feedback turnaround",rubric:"91–100: ≤8 hrs | 76–90: 8–12 hrs | 61–75: 12–24 hrs | 41–60: 24–48 hrs | 0–40: Over 48 hrs"},
+        {label:"Winning Creative Contribution",weight:10,target:"≥20% of output becomes winners",rubric:"91–100: 30%+ winners | 76–90: 20–29% | 61–75: 10–19% | 41–60: 4–9% | 0–40: Below 4%"},
+      ]},
+    ]
+  },
+  "Graphic Artist":{
+    kras:[
+      {kra:"KRA 1 — Output & Quality",kpis:[
+        {label:"Monthly Output Volume",weight:25,target:"≥20 deliverables/month",rubric:"91–100: 25+ | 76–90: 20–24 | 61–75: 14–19 | 41–60: 8–13 | 0–40: Below 8"},
+        {label:"Daily Ad Creative Output",weight:20,target:"≥2 creatives/day",rubric:"91–100: 3+ | 76–90: 2 per day | 61–75: 1 per day | 41–60: 1 every 2 days | 0–40: Rarely delivers"},
+        {label:"On-Time Delivery Rate",weight:20,target:"≥95% on-time",rubric:"91–100: 100% | 76–90: 95–99% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+      ]},
+      {kra:"KRA 2 — Creative Performance",kpis:[
+        {label:"Hook Variations per Raw Clip",weight:15,target:"≥3 variations",rubric:"91–100: 4+ | 76–90: 3 | 61–75: 2 | 41–60: 1 | 0–40: No variation"},
+        {label:"Creative Iteration Speed",weight:10,target:"≤24hr turnaround",rubric:"91–100: ≤12 hrs | 76–90: 12–24 hrs | 61–75: 24–48 hrs | 41–60: 48–72 hrs | 0–40: Over 72 hrs"},
+        {label:"Winning Creative Contribution",weight:10,target:"≥10% winners",rubric:"91–100: 20%+ | 76–90: 10–19% | 61–75: 5–9% | 41–60: 2–4% | 0–40: Below 2%"},
+      ]},
+    ]
+  },
+  "Fulfillment Associate":{
+    kras:[
+      {kra:"KRA 1 — Order Accuracy & Speed",kpis:[
+        {label:"Order Process Accuracy Rate",weight:20,target:"≥98% accuracy",rubric:"91–100: 99–100% | 76–90: 96–98% | 61–75: 90–95% | 41–60: 78–89% | 0–40: Below 78%"},
+        {label:"Shipping Accuracy Rate",weight:15,target:"≥98% shipping accuracy",rubric:"91–100: 99–100% | 76–90: 96–98% | 61–75: 90–95% | 41–60: 78–89% | 0–40: Below 78%"},
+        {label:"Order Fulfillment Time Rate",weight:10,target:"≥95% fulfilled on time",rubric:"91–100: 99–100% | 76–90: 95–98% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+        {label:"Completion Rate",weight:10,target:"≥95% completion rate",rubric:"91–100: 99–100% | 76–90: 95–98% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+      ]},
+      {kra:"KRA 2 — Error Control & Collaboration",kpis:[
+        {label:"Order Error Rate",weight:10,target:"≤2% error rate",rubric:"91–100: 0–0.5% | 76–90: 0.5–2% | 61–75: 2–4% | 41–60: 4–7% | 0–40: Above 7%"},
+        {label:"Duplicate Entries Rate",weight:10,target:"≤1% duplicate entries",rubric:"91–100: Zero duplicates | 76–90: ≤0.5% | 61–75: 0.5–1.5% | 41–60: 1.5–3% | 0–40: Above 3%"},
+        {label:"Customer Complaints Rate",weight:10,target:"≤2% complaint rate",rubric:"91–100: Zero complaints | 76–90: ≤0.5% | 61–75: 0.5–2% | 41–60: 2–4% | 0–40: Above 4%"},
+        {label:"Backlog of Orders Rate",weight:5,target:"≤5% backlog",rubric:"91–100: Zero backlog | 76–90: ≤2% | 61–75: 2–5% | 41–60: 5–8% | 0–40: Above 8%"},
+        {label:"Team Collaboration Rate",weight:5,target:"≥90% collaboration score",rubric:"91–100: Outstanding team player | 76–90: Reliable collaborator | 61–75: Generally cooperative | 41–60: Occasional friction | 0–40: Disruptive to team"},
+      ]},
+    ]
+  },
+  "Logistics Processor":{
+    kras:[
+      {kra:"KRA 1 — Dispatch & Processing Accuracy",kpis:[
+        {label:"Accuracy of Dispatch Orders",weight:15,target:"≥98% dispatch accuracy",rubric:"91–100: 99–100% | 76–90: 96–98% | 61–75: 90–95% | 41–60: 78–89% | 0–40: Below 78%"},
+        {label:"Order Process Accuracy Rate",weight:20,target:"≥98% process accuracy",rubric:"91–100: 99–100% | 76–90: 96–98% | 61–75: 90–95% | 41–60: 78–89% | 0–40: Below 78%"},
+        {label:"Shipping Accuracy Rate",weight:15,target:"≥98% shipping accuracy",rubric:"91–100: 99–100% | 76–90: 96–98% | 61–75: 90–95% | 41–60: 78–89% | 0–40: Below 78%"},
+        {label:"Completion Rate",weight:10,target:"≥95% completion",rubric:"91–100: 99–100% | 76–90: 95–98% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+      ]},
+      {kra:"KRA 2 — Error Control",kpis:[
+        {label:"Order Error Rate",weight:10,target:"≤2% error rate",rubric:"91–100: 0–0.5% | 76–90: 0.5–2% | 61–75: 2–4% | 41–60: 4–7% | 0–40: Above 7%"},
+        {label:"Duplicate Entries Rate",weight:10,target:"≤1%",rubric:"91–100: Zero | 76–90: ≤0.5% | 61–75: 0.5–1.5% | 41–60: 1.5–3% | 0–40: Above 3%"},
+        {label:"Customer Complaints Rate",weight:10,target:"≤2%",rubric:"91–100: Zero | 76–90: ≤0.5% | 61–75: 0.5–2% | 41–60: 2–4% | 0–40: Above 4%"},
+        {label:"Backlog of Orders Rate",weight:5,target:"≤5%",rubric:"91–100: Zero | 76–90: ≤2% | 61–75: 2–5% | 41–60: 5–8% | 0–40: Above 8%"},
+        {label:"Team Collaboration Rate",weight:5,target:"≥90%",rubric:"91–100: Outstanding | 76–90: Reliable | 61–75: Cooperative | 41–60: Occasional friction | 0–40: Disruptive"},
+      ]},
+    ]
+  },
+  "Warehouse Trainee":{
+    kras:[
+      {kra:"KRA 1 — Warehouse Accuracy",kpis:[
+        {label:"Accuracy of Orders Fulfilled",weight:15,target:"≥98%",rubric:"91–100: 99–100% | 76–90: 96–98% | 61–75: 90–95% | 41–60: 78–89% | 0–40: Below 78%"},
+        {label:"Picking Efficiency Rate",weight:15,target:"≥95%",rubric:"91–100: 99–100% | 76–90: 95–98% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+        {label:"Inventory Accuracy",weight:15,target:"≥98% count accuracy",rubric:"91–100: 99–100% | 76–90: 96–98% | 61–75: 90–95% | 41–60: 78–89% | 0–40: Below 78%"},
+        {label:"Packing Efficiency Rate",weight:10,target:"≥95%",rubric:"91–100: 99–100% | 76–90: 95–98% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+      ]},
+      {kra:"KRA 2 — Operations & Safety",kpis:[
+        {label:"Time to Stock Items",weight:10,target:"≤4 hrs to stock",rubric:"91–100: ≤2 hrs | 76–90: 2–4 hrs | 61–75: 4–6 hrs | 41–60: 6–8 hrs | 0–40: Over 8 hrs"},
+        {label:"Receiving Returned Parcels",weight:10,target:"100% accurately received",rubric:"91–100: 100% with zero errors | 76–90: 95–99% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+        {label:"Damaged Items Rate",weight:5,target:"≤1% damage rate",rubric:"91–100: Zero damage | 76–90: ≤0.5% | 61–75: 0.5–1.5% | 41–60: 1.5–3% | 0–40: Above 3%"},
+        {label:"Equipment Handling Rate",weight:5,target:"≥98% safe handling",rubric:"91–100: Zero incidents | 76–90: 96–99% | 61–75: 88–95% | 41–60: 75–87% | 0–40: Below 75%"},
+        {label:"Team Collaboration Rate",weight:5,target:"≥90%",rubric:"91–100: Outstanding | 76–90: Reliable | 61–75: Cooperative | 41–60: Occasional friction | 0–40: Disruptive"},
+        {label:"Attendance & Punctuality",weight:5,target:"100% attendance",rubric:"91–100: Zero absences/late | 76–90: 1 absence or 1–2 tardiness | 61–75: 2–3 absences | 41–60: 4–5 absences | 0–40: More than 5 or habitual tardiness"},
+      ]},
+    ]
+  },
+  "Marketplace Supervisor":{
+    kras:[
+      {kra:"KRA 1 — Marketplace Revenue Growth & Market Proof Execution",kpis:[
+        {label:"Marketplace Revenue Achievement",weight:25,target:"Hit monthly revenue target across all platforms",rubric:"91–100: Hits/exceeds monthly revenue target | 76–90: Reaches 85–99% | 61–75: Reaches 70–84% | 41–60: Reaches 50–69% | 0–40: Below 50%"},
+        {label:"ROAS Performance",weight:20,target:"≥10 ROAS across all marketplace channels",rubric:"91–100: ROAS 10+ consistently across all platforms | 76–90: ROAS 8–9.9 | 61–75: ROAS 6–7.9 | 41–60: ROAS 4–5.9 | 0–40: ROAS below 4 — unprofitable"},
+        {label:"Market Proof Ready Campaigns",weight:10,target:"≥1 scalable campaign per month",rubric:"91–100: 2+ scalable campaigns launched | 76–90: 1 scalable campaign | 61–75: Campaign in progress but not yet scalable | 41–60: Started but no scalable result | 0–40: No scalable campaign"},
+      ]},
+      {kra:"KRA 2 — Marketplace System Development & Operational Scalability",kpis:[
+        {label:"Marketplace SOP Compliance",weight:10,target:"100% SOP compliance",rubric:"91–100: 100% SOP compliance | 76–90: 85–99% | 61–75: 70–84% | 41–60: 50–69% | 0–40: Below 50%"},
+        {label:"Fulfillment Performance (Platform SLA)",weight:10,target:"100% SLA targets met",rubric:"91–100: 100% SLA — zero violations | 76–90: 95–99% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+        {label:"Operational Issue Resolution Rate",weight:5,target:"≥95% resolved within SLA",rubric:"91–100: 97–100% | 76–90: 93–96% | 61–75: 88–92% | 41–60: 75–87% | 0–40: Below 75%"},
+      ]},
+      {kra:"KRA 3 — TikTok Commerce Expansion & Team Performance",kpis:[
+        {label:"TikTok Revenue Contribution Growth",weight:10,target:"15% monthly TikTok revenue growth",rubric:"91–100: 15%+ monthly growth | 76–90: 10–14% | 61–75: 5–9% | 41–60: 1–4% | 0–40: No growth or decline"},
+        {label:"Affiliate Sales Growth",weight:5,target:"Consistent MoM affiliate order growth",rubric:"91–100: Measurable MoM growth | 76–90: Stable with minor growth | 61–75: Flat | 41–60: Declining | 0–40: No activity"},
+        {label:"Team KPI Achievement Rate",weight:5,target:"≥85% of team hitting KPIs",rubric:"91–100: 90–100% of team hitting KPIs | 76–90: 85–89% | 61–75: 75–84% | 41–60: 60–74% | 0–40: Below 60%"},
+      ]},
+    ]
+  },
+  "TikTok Content Creator":{
+    kras:[
+      {kra:"KRA 1 — Revenue & Content",kpis:[
+        {label:"Daily Revenue Target (ROAS 10+)",weight:30,target:"Hit daily revenue target with ROAS ≥10",rubric:"91–100: Consistently hits target with ROAS 10+ | 76–90: Hits 85–99% with ROAS 8–9.9 | 61–75: Hits 70–84% | 41–60: Hits 50–69% | 0–40: Below 50%"},
+        {label:"Content Consistency",weight:20,target:"≥30 posts/month",rubric:"91–100: 35+ posts | 76–90: 30–34 | 61–75: 22–29 | 41–60: 14–21 | 0–40: Below 14"},
+        {label:"Shop Health Excellence",weight:20,target:"100% shop health score",rubric:"91–100: Perfect shop health — zero violations | 76–90: 95–99% health score | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+      ]},
+      {kra:"KRA 2 — Engagement & Compliance",kpis:[
+        {label:"Chat Response Rate",weight:15,target:"≥90% chat response rate",rubric:"91–100: 97–100% | 76–90: 90–96% | 61–75: 80–89% | 41–60: 65–79% | 0–40: Below 65%"},
+        {label:"Zero Penalty & Violation",weight:10,target:"Zero violations/month",rubric:"91–100: Zero violations | 76–90: 1 minor warning | 61–75: 2 warnings | 41–60: 1 violation with penalty | 0–40: Multiple violations"},
+        {label:"Live Selling Performance",weight:5,target:"Hit daily live sales target",rubric:"91–100: Consistently exceeds live target | 76–90: Hits 85–99% | 61–75: Hits 70–84% | 41–60: Hits 50–69% | 0–40: Below 50%"},
+      ]},
+    ]
+  },
+  "Live Seller":{
+    kras:[
+      {kra:"KRA 1 — Sales & Compliance",kpis:[
+        {label:"Daily Sales Target Achievement",weight:40,target:"Hit daily sales target",rubric:"91–100: Consistently exceeds target | 76–90: Hits 85–99% | 61–75: Hits 70–84% | 41–60: Hits 50–69% | 0–40: Below 50%"},
+        {label:"Zero Violation & Zero Penalty",weight:25,target:"Zero violations/month",rubric:"91–100: Zero violations | 76–90: 1 minor warning | 61–75: 2 warnings | 41–60: 1 violation with penalty | 0–40: Multiple violations"},
+      ]},
+      {kra:"KRA 2 — Live Session Quality",kpis:[
+        {label:"Live Session Completion Rate",weight:15,target:"100% sessions completed",rubric:"91–100: 100% completed on time | 76–90: 95–99% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+        {label:"Viewer Engagement & Retention",weight:10,target:"≥30% avg viewer retention",rubric:"91–100: 40%+ retention | 76–90: 30–39% | 61–75: 20–29% | 41–60: 10–19% | 0–40: Below 10%"},
+        {label:"Live Moderation Support",weight:10,target:"≥90% moderation compliance",rubric:"91–100: 100% compliance | 76–90: 90–99% | 61–75: 80–89% | 41–60: 65–79% | 0–40: Below 65%"},
+      ]},
+    ]
+  },
+  "Marketplace Associate":{
+    kras:[
+      {kra:"KRA 1 — Marketplace Performance",kpis:[
+        {label:"Marketplace Revenue Achievement",weight:25,target:"Hit monthly revenue target",rubric:"91–100: Hits/exceeds target | 76–90: 85–99% | 61–75: 70–84% | 41–60: 50–69% | 0–40: Below 50%"},
+        {label:"ROAS Performance",weight:20,target:"≥8 ROAS",rubric:"91–100: ROAS 8+ | 76–90: ROAS 6–7.9 | 61–75: ROAS 4–5.9 | 41–60: ROAS 2–3.9 | 0–40: Below 2x"},
+        {label:"Content Output",weight:15,target:"≥20 posts/month",rubric:"91–100: 25+ | 76–90: 20–24 | 61–75: 14–19 | 41–60: 8–13 | 0–40: Below 8"},
+      ]},
+      {kra:"KRA 2 — Operations",kpis:[
+        {label:"SOP Compliance",weight:15,target:"100% SOP compliance",rubric:"91–100: 100% | 76–90: 85–99% | 61–75: 70–84% | 41–60: 50–69% | 0–40: Below 50%"},
+        {label:"Fulfillment SLA",weight:15,target:"100% SLA compliance",rubric:"91–100: Zero SLA violations | 76–90: 95–99% | 61–75: 88–94% | 41–60: 75–87% | 0–40: Below 75%"},
+        {label:"Operational Issue Resolution",weight:10,target:"≥90% resolved within SLA",rubric:"91–100: 97–100% | 76–90: 90–96% | 61–75: 80–89% | 41–60: 65–79% | 0–40: Below 65%"},
+      ]},
+    ]
+  },
 };
 
-const DEPT_COLORS={
-  "Telesales":{bg:"#E6F1FB",tc:"#0C447C"},
-  "Chat Sales":{bg:"#EEEDFE",tc:"#3C3489"},
-  "Marketplace":{bg:"#FFF8E1",tc:"#633806"},
-  "Logistics":{bg:"#E1F5EE",tc:"#085041"},
-  "Creatives":{bg:"#FBEAF0",tc:"#72243E"},
-  "Distribution Sales":{bg:"#F1EFE8",tc:"#444441"},
-  "Marketing":{bg:"#EAF3DE",tc:"#27500A"},
-  "Customer Intel.":{bg:"#FAECE7",tc:"#712B13"},
-};
-
+// ── BEHAVIORAL VALUES (same for all positions) ──────────────
 const BEHAVIORS=[
-  {
-    value:"Be the Right WHO",
-    criterion:"Character & Cultural Fit — Right Person in the Right Position",
-    weight:10,
-    rubric:"91–100: Fully demonstrates skills, mindset & character — no misalignment | 76–90: Generally right fit, minor gaps being addressed | 61–75: Adequate but some leadership/skill gaps visible | 41–60: Noticeable mismatch between person and role | 0–40: Clearly misaligned — skills or character do not meet requirements",
-  },
-  {
-    value:"Commitment to Team Success",
-    criterion:"Team Collaboration & Support",
-    weight:15,
-    rubric:"91–100: Actively develops and supports team, puts team results before personal credit | 76–90: Cooperative and reliable team leader | 61–75: Generally helpful but occasionally self-focused | 41–60: Limited team support, works in isolation | 0–40: Disruptive to team morale or uncooperative",
-  },
-  {
-    value:"Always Leveling Up",
-    criterion:"Coachability & Continuous Growth",
-    weight:20,
-    rubric:"91–100: Actively seeks feedback, applies corrections immediately, shows visible improvement monthly | 76–90: Receives feedback well, most corrections applied | 61–75: Accepts feedback but inconsistent in applying it | 41–60: Resistant or defensive to coaching | 0–40: Does not respond to feedback — same issues persist",
-  },
-  {
-    value:"Joy in the Journey",
-    criterion:"Attitude, Energy & Professionalism",
-    weight:10,
-    rubric:"91–100: Consistently positive energy, professional under pressure, uplifts team | 76–90: Generally positive and professional | 61–75: Mostly professional, occasional negative attitude | 41–60: Frequent negativity affecting others | 0–40: Toxic conduct damaging to team and operations",
-  },
-  {
-    value:"Own It Like It's Yours",
-    criterion:"Initiative, Accountability & Ownership",
-    weight:25,
-    rubric:"91–100: Takes full ownership, escalates risks early, never makes excuses | 76–90: Accountable and reliable, minimal oversight needed | 61–75: Does the work but avoids responsibility for gaps | 41–60: Deflects accountability, needs constant follow-up | 0–40: Does not take ownership — passive and reactive",
-  },
-  {
-    value:"Win. Win. Win.",
-    criterion:"Results Orientation & Work Ethic",
-    weight:10,
-    rubric:"91–100: Driven to win, consistently pushes for better results, sets high standard | 76–90: Strong work ethic, focused on results | 61–75: Meets expectations but rarely pushes beyond | 41–60: Inconsistent effort, does minimum | 0–40: Low drive, disengaged from achieving results",
-  },
+  {value:"Be the Right WHO",criterion:"Character & Cultural Fit — Right Person in the Right Position",weight:10,
+   rubric:"91–100: Fully demonstrates skills, mindset & character — no misalignment | 76–90: Generally right fit, minor gaps being addressed | 61–75: Adequate but some gaps visible | 41–60: Noticeable mismatch between person and role | 0–40: Clearly misaligned"},
+  {value:"Commitment to Team Success",criterion:"Team Collaboration & Support",weight:15,
+   rubric:"91–100: Actively develops and supports team, puts team before personal credit | 76–90: Cooperative and reliable | 61–75: Generally helpful but occasionally self-focused | 41–60: Limited team support | 0–40: Disruptive to team morale"},
+  {value:"Always Leveling Up",criterion:"Coachability & Continuous Growth",weight:20,
+   rubric:"91–100: Actively seeks feedback, applies corrections immediately, visible monthly improvement | 76–90: Receives feedback well, most corrections applied | 61–75: Accepts feedback but inconsistent | 41–60: Resistant or defensive | 0–40: Does not respond — same issues persist"},
+  {value:"Joy in the Journey",criterion:"Attitude, Energy & Professionalism",weight:10,
+   rubric:"91–100: Consistently positive, professional under pressure, uplifts team | 76–90: Generally positive and professional | 61–75: Mostly professional, occasional negativity | 41–60: Frequent negativity affecting others | 0–40: Toxic conduct"},
+  {value:"Own It Like It's Yours",criterion:"Initiative, Accountability & Ownership",weight:25,
+   rubric:"91–100: Full ownership, escalates risks early, never makes excuses | 76–90: Accountable and reliable, minimal oversight | 61–75: Does the work but avoids responsibility for gaps | 41–60: Deflects accountability, needs constant follow-up | 0–40: Passive and reactive"},
+  {value:"Win. Win. Win.",criterion:"Results Orientation & Work Ethic",weight:10,
+   rubric:"91–100: Driven to win, consistently pushes for better results | 76–90: Strong work ethic, focused on results | 61–75: Meets expectations, rarely pushes beyond | 41–60: Inconsistent effort | 0–40: Low drive, disengaged"},
+  {value:"HR Part",criterion:"Attendance & Punctuality (HR fills this section)",weight:10,isHR:true,
+   rubric:"91–100: Zero unexcused absences, always on time | 76–90: 1 absence or 1–2 tardiness/month | 61–75: 2–3 absences | 41–60: 4–5 absences | 0–40: More than 5 or habitual tardiness"},
 ];
 
-// Mutable employee list — can be added to mid-process
+// ── DEPT COLORS ───────────────────────────────────────────────
+const DC={
+  "Telesales":{bg:"#E6F1FB",tc:"#0C447C"},"Chat Sales":{bg:"#EEEDFE",tc:"#3C3489"},
+  "Marketplace":{bg:"#FFF8E1",tc:"#633806"},"Logistics":{bg:"#E1F5EE",tc:"#085041"},
+  "Creatives":{bg:"#FBEAF0",tc:"#72243E"},"Distribution Sales":{bg:"#F1EFE8",tc:"#444441"},
+  "Marketing":{bg:"#EAF3DE",tc:"#27500A"},"Customer Intel.":{bg:"#FAECE7",tc:"#712B13"},
+};
+
 let EMPLOYEES=[
   {name:"Bernardino Hazel Mae S",dept:"Marketplace",pos:"Marketplace Supervisor"},
   {name:"Carandang Angela",dept:"Chat Sales",pos:"Chat Sales Supervisor"},
@@ -567,75 +698,64 @@ let EMPLOYEES=[
   {name:"Sevillon Regina M",dept:"Chat Sales",pos:"Chat Sales Agent"},
 ];
 
-// State
-let activeMonth=null, isLocked=false, currentScores=[], lockedHistory=[], currentEmp=null;
+let activeMonth=null,isLocked=false,currentScores=[],lockedHistory=[],currentEmp=null;
 
 // ── HELPERS ──────────────────────────────────────────────────
-function classify(total,avgKpi,avgBehav,gatePass){
-  if(!gatePass)return'Blocked';
-  if(total>=85&&avgKpi>=90&&avgBehav>=76)return'A Player';
-  if(total>=70&&avgBehav>=61)return'B Player';
-  if(total>=70&&avgBehav<61)return'C Player';
-  return'D Player';
-}
-function badgeClass(cl){return{['A Player']:'ba',['B Player']:'bb',['C Player']:'bc',['D Player']:'bd',['Blocked']:'bx'}[cl]||'bx';}
-function deptStyle(d){const c=DEPT_COLORS[d]||{bg:'#f1f1f1',tc:'#333'};return`background:${c.bg};color:${c.tc}`;}
+function ds(d){const c=DC[d]||{bg:'#f1f1f1',tc:'#333'};return`background:${c.bg};color:${c.tc}`;}
 
-function computeScore(pos,gatePass){
-  const kpis=KPI_MAP[pos]||[];
-  let wAtt=0,tW=0;
-  kpis.forEach((k,i)=>{
-    const a=parseFloat(document.getElementById('ka_'+i)?.value)||0;
-    const t=parseFloat(document.getElementById('kt_'+i)?.value)||0.01;
-    let att=k.lower?Math.min((t/Math.max(a,1e-9))*100,150):Math.min((a/t)*100,150);
-    wAtt+=Math.round(att)*(k.weight/100); tW+=k.weight/100;
-  });
-  const avgKpi=tW>0?Math.round(wAtt/tW):0;
-  const kpiScore=Math.round(Math.min(avgKpi/100*60,60));
-  let behavSum=0;
-  BEHAVIORS.forEach((_,i)=>{behavSum+=parseInt(document.getElementById('bs_'+i)?.value)||3;});
-  const behavScore=Math.round((behavSum/(BEHAVIORS.length*5))*30);
-  const attScore=gatePass?10:0;
-  const total=gatePass?kpiScore+behavScore+attScore:0;
-  const avgBehav=behavSum/BEHAVIORS.length;
-  return{avgKpi,kpiScore,behavScore,attScore,total,avgBehav};
+function getRating(score){
+  if(score>=91)return{label:'Exceptional',cls:'ba',rec:'A-Player candidate — Recognition eligible'};
+  if(score>=76)return{label:'Above Average',cls:'bb',rec:'Above Average — Merit increase eligible'};
+  if(score>=61)return{label:'Meets Expectations',cls:'',style:'background:#E8F5E9;color:#1B5E20',rec:'Meets Expectations — Continue current status'};
+  if(score>=41)return{label:'Needs Improvement',cls:'bc',rec:'Needs Improvement — Coaching required'};
+  return{label:'Unsatisfactory',cls:'bd',rec:'Unsatisfactory — PIP or corrective action'};
+}
+
+function getRecommendation(score,status){
+  if(score>=75&&status==='probationary')return'For Regularization';
+  if(score>=76&&status==='regular')return'Merit Increase Eligible';
+  if(score>=61&&score<76)return'Continue Current Status';
+  if(score<61)return'For Performance Improvement Plan';
+  return'Continue Current Status';
+}
+
+function toggleRubric(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.classList.toggle('open');
+  const btn=document.getElementById('rb_'+id);
+  if(btn)btn.textContent=el.classList.contains('open')?'▾ Hide rubric':'▸ View rubric';
 }
 
 // ── MONTH SETUP ───────────────────────────────────────────────
 function startEvaluation(){
   const m=document.getElementById('evalMonth').value;
   if(!m){alert('Select a month first.');return;}
-  if(lockedHistory.find(h=>h.month===m)){alert(m+' is already locked. View it in Locked History.');return;}
+  if(lockedHistory.find(h=>h.month===m)){alert(m+' is already locked.');return;}
   activeMonth=m; isLocked=false; currentScores=[]; currentEmp=null;
   document.getElementById('monthSetup').style.display='none';
   document.getElementById('lockBar').style.display='flex';
   document.getElementById('mainTabs').style.display='flex';
   document.getElementById('activePill').textContent=m;
-  document.getElementById('lockStatus').innerHTML='<span style="background:#EAF3DE;color:#27500A;font-size:11px;font-weight:500;padding:2px 8px;border-radius:6px">● Open</span>';
+  document.getElementById('lockStatus').innerHTML='<span style="background:#EAF3DE;color:#27500A;font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px">● Open</span>';
   document.getElementById('ov_elig').textContent=EMPLOYEES.length;
-  populateEmpSelect();
-  updateOverview();
+  populateEmpSelect(); updateOverview();
   showTab('overview',document.querySelectorAll('#mainTabs .tab')[0]);
   renderPastMonths();
 }
 
-// ── ADD MISSING PANEL ─────────────────────────────────────────
+// ── ADD PANEL ─────────────────────────────────────────────────
 function toggleAddPanel(){
   const p=document.getElementById('addPanel');
-  const opening=p.style.display==='none'||p.style.display==='';
+  const opening=p.style.display==='none'||!p.style.display;
   p.style.display=opening?'block':'none';
-  if(opening) refreshAddPanelDropdowns();
-}
-
-function refreshAddPanelDropdowns(){
-  const positions=Object.keys(KPI_MAP).sort();
-  ['newEmpPos','kpiPos'].forEach(id=>{
-    const sel=document.getElementById(id);
-    if(!sel)return;
-    const cur=sel.value;
-    sel.innerHTML='<option value="">Select position...</option>'+
-      positions.map(p=>`<option${p===cur?' selected':''}>${p}</option>`).join('');
-  });
+  if(opening){
+    const pos=Object.keys(KPI_MAP).sort();
+    ['newEmpPos','kpiPos'].forEach(id=>{
+      const s=document.getElementById(id);if(!s)return;
+      s.innerHTML='<option value="">Select position...</option>'+pos.map(p=>`<option>${p}</option>`).join('');
+    });
+  }
 }
 
 function addEmployee(){
@@ -644,10 +764,9 @@ function addEmployee(){
   const pos=document.getElementById('newEmpPos').value;
   const msg=document.getElementById('addEmpMsg');
   if(!name||!dept||!pos){msg.style.color='#c0392b';msg.textContent='Fill in all fields.';return;}
-  if(EMPLOYEES.find(e=>e.name.toLowerCase()===name.toLowerCase())){msg.style.color='#c0392b';msg.textContent='Employee already exists.';return;}
+  if(EMPLOYEES.find(e=>e.name.toLowerCase()===name.toLowerCase())){msg.style.color='#c0392b';msg.textContent='Already exists.';return;}
   EMPLOYEES.push({name,dept,pos});
-  msg.style.color='#27500A';
-  msg.textContent=name+' added. Now visible in the Score employee tab.';
+  msg.style.color='#27500A';msg.textContent=name+' added successfully.';
   document.getElementById('newEmpName').value='';
   document.getElementById('newEmpDept').value='';
   document.getElementById('newEmpPos').value='';
@@ -658,36 +777,31 @@ function addEmployee(){
 
 function addKpi(){
   const pos=document.getElementById('kpiPos').value;
+  const kra=document.getElementById('newKpiKra').value.trim();
   const label=document.getElementById('newKpiLabel').value.trim();
   const weight=parseInt(document.getElementById('newKpiWeight').value)||0;
-  const unit=document.getElementById('newKpiUnit').value.trim()||'%';
-  const target=parseFloat(document.getElementById('newKpiTarget').value);
-  const lower=document.getElementById('newKpiLower').checked;
+  const target=document.getElementById('newKpiTarget').value.trim();
+  const rubric=document.getElementById('newKpiRubric').value.trim();
   const msg=document.getElementById('addKpiMsg');
-  if(!pos||!label||!weight||isNaN(target)){msg.style.color='#c0392b';msg.textContent='Fill in all fields.';return;}
-  if(!KPI_MAP[pos])KPI_MAP[pos]=[];
-  KPI_MAP[pos].push({label,weight,unit,target,lower});
-  msg.style.color='#27500A';
-  msg.textContent=`"${label}" added to ${pos}. Applies to scores from this point forward.`;
-  document.getElementById('newKpiLabel').value='';
-  document.getElementById('newKpiWeight').value='';
-  document.getElementById('newKpiUnit').value='';
-  document.getElementById('newKpiTarget').value='';
-  document.getElementById('newKpiLower').checked=false;
+  if(!pos||!label||!weight||!target){msg.style.color='#c0392b';msg.textContent='Fill in all required fields.';return;}
+  if(!KPI_MAP[pos])KPI_MAP[pos]={kras:[]};
+  let kraObj=KPI_MAP[pos].kras.find(k=>k.kra===kra);
+  if(!kraObj){kraObj={kra:kra||'Additional KPIs',kpis:[]};KPI_MAP[pos].kras.push(kraObj);}
+  kraObj.kpis.push({label,weight,target,rubric});
+  msg.style.color='#27500A';msg.textContent=`"${label}" added to ${pos}.`;
+  ['newKpiKra','newKpiLabel','newKpiWeight','newKpiTarget','newKpiRubric'].forEach(id=>document.getElementById(id).value='');
   buildKpiRef();
   setTimeout(()=>msg.textContent='',5000);
 }
 
-// ── SCORING FORM ──────────────────────────────────────────────
+// ── EMPLOYEE SELECT ───────────────────────────────────────────
 function populateEmpSelect(){
-  const sel=document.getElementById('empSel');
-  const cur=sel.value;
+  const sel=document.getElementById('empSel'),cur=sel.value;
   sel.innerHTML='<option value="">Choose...</option>';
   EMPLOYEES.forEach(e=>{
     const scored=currentScores.find(s=>s.name===e.name);
     const o=document.createElement('option');
-    o.value=e.name;
-    o.textContent=e.name+(scored?' ✓':'');
+    o.value=e.name; o.textContent=e.name+(scored?' ✓':'');
     if(e.name===cur)o.selected=true;
     sel.appendChild(o);
   });
@@ -699,264 +813,279 @@ function loadEmp(){
   if(!emp){currentEmp=null;return;}
   currentEmp=emp;
   document.getElementById('empDept').value=emp.dept+' · '+emp.pos;
-  buildKpiRows(emp.pos);
-  buildBehavRows();
+  buildKpiSection(emp.pos);
+  buildBehavSection();
   const prev=currentScores.find(s=>s.name===name);
   if(prev){
     document.getElementById('evalBy').value=prev.evaluator||'';
-    document.getElementById('saveMsg').textContent='Previously scored: '+prev.total+'/100 ('+prev.cl+'). You can update before locking.';
-  } else {
-    document.getElementById('saveMsg').textContent='';
-  }
+    document.getElementById('saveMsg').textContent='Previously scored: '+prev.finalScore+'% ('+prev.rating+'). You can update before locking.';
+  } else {document.getElementById('saveMsg').textContent='';}
   calcAll();
 }
 
-function buildKpiRows(pos){
-  const kpis=KPI_MAP[pos]||[];
-  if(!kpis.length){document.getElementById('kpiRows').innerHTML='<p style="font-size:12px;color:#aaa">No KPIs mapped for this position.</p>';return;}
-  document.getElementById('kpiRows').innerHTML=kpis.map((k,i)=>`
-    <div class="kpi-row">
-      <div style="flex:1;min-width:0">
-        <div style="font-size:12px;font-weight:500">${k.label} <span class="wt">${k.weight}%</span></div>
-        <div style="font-size:11px;color:#888">Target: ${k.target} ${k.unit}${k.lower?' (lower is better)':''}</div>
-      </div>
-      <div class="ki">
-        <div><div style="font-size:10px;color:#888;text-align:center">Actual</div><input type="number" id="ka_${i}" value="${k.target}" min="0" step="any" oninput="calcAll()"></div>
-        <div><div style="font-size:10px;color:#888;text-align:center">Target</div><input type="number" id="kt_${i}" value="${k.target}" min="0.01" step="any" oninput="calcAll()"></div>
-        <div class="katt" id="katt_${i}">100%</div>
-      </div>
-    </div>`).join('');
+// ── BUILD KPI SECTION ─────────────────────────────────────────
+function buildKpiSection(pos){
+  const data=KPI_MAP[pos];
+  if(!data){document.getElementById('kpiSection').innerHTML='<p style="font-size:12px;color:#aaa">No KPIs mapped for this position.</p>';return;}
+  let kpiIndex=0;
+  document.getElementById('kpiSection').innerHTML=data.kras.map(kra=>`
+    <div class="kra-header">${kra.kra}</div>
+    ${kra.kpis.map(k=>{
+      const i=kpiIndex++;
+      return`<div class="kpi-block">
+        <div class="kpi-top">
+          <div>
+            <div class="kpi-label">${i+1}. ${k.label} <span class="kpi-wt">${k.weight}%</span></div>
+            <div style="font-size:11px;color:#888;margin-bottom:4px">Target: ${k.target}</div>
+            ${k.rubric?`<span class="rubric-toggle" id="rb_rk${i}" onclick="toggleRubric('rk${i}')">▸ View rubric</span>
+            <div class="rubric-box" id="rk${i}">
+              ${k.rubric.split('|').map(r=>r.trim()).map(r=>{
+                const s=parseInt(r);
+                const col=s>=91?'#27500A':s>=76?'#0C447C':s>=61?'#2E7D32':s>=41?'#E65100':'#c0392b';
+                return`<div style="color:${col};padding:1px 0">• ${r}</div>`;
+              }).join('')}
+            </div>`:''}
+          </div>
+          <div class="kpi-score-box">
+            <div style="font-size:10px;color:#888;margin-bottom:3px">Score (0–100%)</div>
+            <input type="number" id="ks_${i}" min="0" max="100" value="80"
+              style="width:75px;text-align:center;font-size:15px;font-weight:700;border:1.5px solid #ddd;border-radius:8px;padding:5px"
+              oninput="updateKpiColor(${i});calcAll()">
+            <div id="kl_${i}" class="score-label" style="color:#0C447C">Above Avg</div>
+          </div>
+        </div>
+        <label>Evidence <span style="color:#c0392b">*</span></label>
+        <textarea id="ke_${i}" placeholder="Provide specific data, observations, or examples to support this score..."></textarea>
+      </div>`;
+    }).join('')}`).join('');
+  // store kpiCount
+  document.getElementById('kpiSection').dataset.count=kpiIndex;
+  // init colors
+  for(let i=0;i<kpiIndex;i++)updateKpiColor(i);
 }
 
-function buildBehavRows(){
-  document.getElementById('behavRows').innerHTML=BEHAVIORS.map((b,i)=>`
-    <div style="padding:10px 0;border-bottom:1px solid #eee">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px">
+function updateKpiColor(i){
+  const v=parseInt(document.getElementById('ks_'+i)?.value)||0;
+  const el=document.getElementById('kl_'+i);if(!el)return;
+  if(v>=91){el.textContent='Exceptional';el.style.color='#27500A';}
+  else if(v>=76){el.textContent='Above Average';el.style.color='#0C447C';}
+  else if(v>=61){el.textContent='Meets Expectations';el.style.color='#2E7D32';}
+  else if(v>=41){el.textContent='Needs Improvement';el.style.color='#E65100';}
+  else{el.textContent='Unsatisfactory';el.style.color='#c0392b';}
+}
+
+// ── BUILD BEHAVIORAL SECTION ──────────────────────────────────
+function buildBehavSection(){
+  document.getElementById('behavSection').innerHTML=BEHAVIORS.map((b,i)=>`
+    <div class="beh-block" style="${b.isHR?'background:#fffde7;border-color:#f9ca24':''}">
+      <div class="kpi-top">
         <div style="flex:1">
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
-            <span style="font-size:11px;font-weight:600;background:#EEEDFE;color:#3C3489;padding:2px 7px;border-radius:6px">${b.value}</span>
-            <span style="font-size:10px;color:#888;font-weight:500">${b.weight}% weight</span>
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;flex-wrap:wrap">
+            <span style="font-size:11px;font-weight:700;background:#EEEDFE;color:#3C3489;padding:2px 7px;border-radius:6px">${b.value}</span>
+            <span style="font-size:10px;color:#888;font-weight:600">${b.weight}% weight</span>
+            ${b.isHR?'<span style="font-size:10px;background:#f9ca24;color:#1a1a1a;padding:2px 7px;border-radius:6px;font-weight:600">HR fills this</span>':''}
           </div>
-          <div style="font-size:12px;font-weight:500;color:#1a1a1a;margin-bottom:4px">${b.criterion}</div>
-          <details style="margin-bottom:4px">
-            <summary style="font-size:11px;color:#378ADD;cursor:pointer;list-style:none">▸ View scoring rubric</summary>
-            <div style="font-size:11px;color:#555;background:#f8f8f8;border-radius:6px;padding:6px 8px;margin-top:4px;line-height:1.7">
-              ${b.rubric.split('|').map(r=>r.trim()).map(r=>{
-                const score=parseInt(r);
-                const col=score>=91?'#27500A':score>=76?'#0C447C':score>=61?'#633806':score>=41?'#791F1F':'#444';
-                return`<div style="color:${col}">• ${r}</div>`;
-              }).join('')}
-            </div>
-          </details>
+          <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:4px">${b.criterion}</div>
+          <span class="rubric-toggle" id="rb_bh${i}" onclick="toggleRubric('bh${i}')">▸ View rubric</span>
+          <div class="rubric-box" id="bh${i}">
+            ${b.rubric.split('|').map(r=>r.trim()).map(r=>{
+              const s=parseInt(r);
+              const col=s>=91?'#27500A':s>=76?'#0C447C':s>=61?'#2E7D32':s>=41?'#E65100':'#c0392b';
+              return`<div style="color:${col};padding:1px 0">• ${r}</div>`;
+            }).join('')}
+          </div>
         </div>
-        <div style="text-align:center;flex-shrink:0">
-          <div style="font-size:10px;color:#888;margin-bottom:3px">Score (0–100)</div>
-          <input type="number" id="bs_${i}" min="0" max="100" value="75"
-            style="width:70px;text-align:center;font-size:15px;font-weight:600;border:1.5px solid #ddd;border-radius:8px;padding:4px"
-            oninput="updateBehavColor(${i});calcAll()">
-          <div id="bsLabel_${i}" style="font-size:10px;margin-top:3px;color:#633806">Adequate</div>
+        <div class="kpi-score-box">
+          <div style="font-size:10px;color:#888;margin-bottom:3px">Score (0–100%)</div>
+          <input type="number" id="bs_${i}" min="0" max="100" value="80"
+            ${b.isHR?'style="width:75px;text-align:center;font-size:15px;font-weight:700;border:1.5px solid #f9ca24;border-radius:8px;padding:5px;background:#fffde7"':'style="width:75px;text-align:center;font-size:15px;font-weight:700;border:1.5px solid #ddd;border-radius:8px;padding:5px"'}
+            oninput="updateBehColor(${i});calcAll()">
+          <div id="bl_${i}" class="score-label" style="color:#0C447C">Above Avg</div>
         </div>
       </div>
       <div>
-        <label>Observations / notes <span style="color:#c0392b">*</span></label>
-        <textarea id="be_${i}" placeholder="Describe specific observed behavior with example..." oninput="calcAll()"></textarea>
+        <label>Observations / notes${b.isHR?'':' <span style="color:#c0392b">*</span>'}</label>
+        <textarea id="be_${i}" placeholder="${b.isHR?'HR Officer fills this section — attendance data, tardiness count...':'Describe specific observed behavior with concrete example...'}"></textarea>
       </div>
     </div>`).join('');
-  // init color labels
-  BEHAVIORS.forEach((_,i)=>updateBehavColor(i));
+  BEHAVIORS.forEach((_,i)=>updateBehColor(i));
 }
 
-function updateBehavColor(i){
+function updateBehColor(i){
   const v=parseInt(document.getElementById('bs_'+i)?.value)||0;
-  const el=document.getElementById('bsLabel_'+i);
-  if(!el)return;
+  const el=document.getElementById('bl_'+i);if(!el)return;
   if(v>=91){el.textContent='Exceptional';el.style.color='#27500A';}
-  else if(v>=76){el.textContent='Strong';el.style.color='#0C447C';}
-  else if(v>=61){el.textContent='Adequate';el.style.color='#633806';}
-  else if(v>=41){el.textContent='Below expectations';el.style.color='#791F1F';}
-  else{el.textContent='Misaligned';el.style.color='#9e1a1a';}
+  else if(v>=76){el.textContent='Above Average';el.style.color='#0C447C';}
+  else if(v>=61){el.textContent='Meets Expectations';el.style.color='#2E7D32';}
+  else if(v>=41){el.textContent='Needs Improvement';el.style.color='#E65100';}
+  else{el.textContent='Unsatisfactory';el.style.color='#c0392b';}
 }
 
-function calcGate(){
-  const wd=parseInt(document.getElementById('wDays').value)||23;
-  const dp=parseInt(document.getElementById('dPresent').value)||0;
-  const tl=parseInt(document.getElementById('tLate').value)||0;
-  const rate=Math.round((dp/wd)*100);
-  const pass=dp===wd&&tl===0;
-  document.getElementById('gateMsg').innerHTML=`<div class="${pass?'ok':'warn'}">Attendance: <strong>${rate}%</strong> · Tardiness: <strong>${tl}x</strong> — ${pass?'✅ Perfect attendance. Gate passed.':'❌ Gate failed — 100% present + 0 tardiness required.'}</div>`;
-  return pass;
-}
-
+// ── CALCULATE SCORES ──────────────────────────────────────────
 function calcAll(){
-  const gatePass=calcGate();
   if(!currentEmp)return;
-  const kpis=KPI_MAP[currentEmp.pos]||[];
-  let wAtt=0,tW=0;
-  kpis.forEach((k,i)=>{
-    const a=parseFloat(document.getElementById('ka_'+i)?.value)||0;
-    const t=parseFloat(document.getElementById('kt_'+i)?.value)||0.01;
-    let att=k.lower?Math.min((t/Math.max(a,1e-9))*100,150):Math.min((a/t)*100,150);
-    att=Math.round(att);
-    wAtt+=att*(k.weight/100); tW+=k.weight/100;
-    const el=document.getElementById('katt_'+i);
-    if(el){el.textContent=att+'%';el.style.color=att>=100?'#27500A':att>=80?'#633806':'#791F1F';}
+  const pos=currentEmp.pos;
+  const data=KPI_MAP[pos];
+  if(!data)return;
+
+  // KPI raw — weighted average
+  let kpiWsum=0,kpiWtotal=0,kpiIdx=0;
+  data.kras.forEach(kra=>{
+    kra.kpis.forEach(k=>{
+      const v=Math.min(100,Math.max(0,parseInt(document.getElementById('ks_'+kpiIdx)?.value)||0));
+      kpiWsum+=v*(k.weight/100); kpiWtotal+=k.weight/100;
+      kpiIdx++;
+    });
   });
-  const avgKpi=tW>0?Math.round(wAtt/tW):0;
-  const kpiScore=Math.round(Math.min(avgKpi/100*60,60));
-  document.getElementById('kpiScore').textContent=kpiScore+' / 60';
-  // Behavior — weighted average of 0-100 scores, mapped to 30pts
-  let behavWeightedSum=0, totalBehavWeight=0;
+  const kpiRaw=kpiWtotal>0?Math.round(kpiWsum/kpiWtotal):0;
+  document.getElementById('kpiRaw').textContent=kpiRaw+'%';
+  document.getElementById('rv_kpiRaw').textContent=kpiRaw+'%';
+
+  // Behavioral raw — weighted average
+  let behWsum=0,behWtotal=0;
   BEHAVIORS.forEach((b,i)=>{
     const v=Math.min(100,Math.max(0,parseInt(document.getElementById('bs_'+i)?.value)||0));
-    behavWeightedSum+=v*(b.weight/100);
-    totalBehavWeight+=b.weight/100;
+    behWsum+=v*(b.weight/100); behWtotal+=b.weight/100;
   });
-  const behavAvg=totalBehavWeight>0?Math.round(behavWeightedSum/totalBehavWeight):0;
-  const behavScore=Math.round(behavAvg/100*30);
-  document.getElementById('behavScore').textContent=behavScore+' / 30 (avg: '+behavAvg+')');
-  const attScore=gatePass?10:0;
-  const total=gatePass?kpiScore+behavScore+attScore:0;
-  const avgBehav=behavAvg; // 0-100 scale for classification
-  document.getElementById('rv_kpi').textContent=gatePass?kpiScore:'—';
-  document.getElementById('rv_beh').textContent=gatePass?behavScore:'—';
-  document.getElementById('rv_att').textContent=gatePass?attScore:'—';
-  document.getElementById('rv_tot').textContent=gatePass?total:'0';
-  document.getElementById('kpiAvgDisp').textContent=gatePass?'KPI avg: '+avgKpi+'% · Behavior avg: '+behavAvg:'';
-  const bar=document.getElementById('totalBar');
-  bar.style.width=total+'%';
-  bar.style.background=total>=85?'#639922':total>=70?'#378ADD':total>=50?'#EF9F27':'#E24B4A';
-  const cl=classify(total,avgKpi,avgBehav,gatePass);
-  const badge=document.getElementById('classBadge');
-  badge.className='badge '+badgeClass(cl); badge.textContent=cl;
+  const behRaw=behWtotal>0?Math.round(behWsum/behWtotal):0;
+  document.getElementById('behavRaw').textContent=behRaw+'%';
+  document.getElementById('rv_behRaw').textContent=behRaw+'%';
+
+  // Final = KPI×65% + Behav×35%
+  const kpiWeighted=Math.round(kpiRaw*0.65*10)/10;
+  const behWeighted=Math.round(behRaw*0.35*10)/10;
+  const finalScore=Math.round(kpiWeighted+behWeighted);
+
+  document.getElementById('kpiWeighted').textContent=kpiWeighted.toFixed(1)+'%';
+  document.getElementById('behWeighted').textContent=behWeighted.toFixed(1)+'%';
+  document.getElementById('finalCalc').textContent=finalScore+'%';
+  document.getElementById('rv_final').textContent=finalScore+'%';
+
+  const bar=document.getElementById('finalBar');
+  bar.style.width=finalScore+'%';
+  bar.style.background=finalScore>=91?'#27500A':finalScore>=76?'#378ADD':finalScore>=61?'#1D9E75':finalScore>=41?'#EF9F27':'#E24B4A';
+
+  const r=getRating(finalScore);
+  const rb=document.getElementById('ratingBadge');
+  rb.className='badge '+(r.cls||'');
+  if(r.style)rb.setAttribute('style',r.style+';font-size:11px;font-weight:600;padding:2px 9px;border-radius:8px');
+  rb.textContent=r.label;
+
+  const status=document.getElementById('empStatus').value;
+  const rec=getRecommendation(finalScore,status);
+  document.getElementById('recBadge').textContent=rec;
+  document.getElementById('recBadge').style.color=finalScore>=76?'#27500A':finalScore>=61?'#0C447C':'#c0392b';
 }
 
 function saveScore(){
-  if(isLocked){alert('This period is locked.');return;}
+  if(isLocked){alert('Period is locked.');return;}
   if(!currentEmp){document.getElementById('saveMsg').textContent='Select an employee first.';return;}
-  const gatePass=calcGate();
-  const kpis=KPI_MAP[currentEmp.pos]||[];
-  let wAtt=0,tW=0,behavSum=0;
-  kpis.forEach((k,i)=>{
-    const a=parseFloat(document.getElementById('ka_'+i)?.value)||0;
-    const t=parseFloat(document.getElementById('kt_'+i)?.value)||0.01;
-    let att=k.lower?Math.min((t/Math.max(a,1e-9))*100,150):Math.min((a/t)*100,150);
-    wAtt+=Math.round(att)*(k.weight/100); tW+=k.weight/100;
-  });
-  BEHAVIORS.forEach((_,i)=>{behavSum+=parseInt(document.getElementById('bs_'+i)?.value)||3;});
-  const avgKpi=tW>0?Math.round(wAtt/tW):0;
-  const kpiScore=Math.round(Math.min(avgKpi/100*60,60));
-  const behavScore=Math.round((behavSum/(BEHAVIORS.length*5))*30);
-  const attScore=gatePass?10:0;
-  const total=gatePass?kpiScore+behavScore+attScore:0;
-  const avgBehav=behavSum/BEHAVIORS.length;
-  const cl=classify(total,avgKpi,avgBehav,gatePass);
-  const record={name:currentEmp.name,dept:currentEmp.dept,pos:currentEmp.pos,gatePass,avgKpi,kpiScore,behavScore,attScore,total,cl,evaluator:document.getElementById('evalBy').value||'—',month:activeMonth};
+  const pos=currentEmp.pos,data=KPI_MAP[pos];
+  if(!data)return;
+  let kpiWsum=0,kpiWtotal=0,kpiIdx=0;
+  data.kras.forEach(kra=>{kra.kpis.forEach(k=>{
+    const v=Math.min(100,Math.max(0,parseInt(document.getElementById('ks_'+kpiIdx)?.value)||0));
+    kpiWsum+=v*(k.weight/100);kpiWtotal+=k.weight/100;kpiIdx++;
+  });});
+  const kpiRaw=kpiWtotal>0?Math.round(kpiWsum/kpiWtotal):0;
+  let behWsum=0,behWtotal=0;
+  BEHAVIORS.forEach((b,i)=>{const v=Math.min(100,Math.max(0,parseInt(document.getElementById('bs_'+i)?.value)||0));behWsum+=v*(b.weight/100);behWtotal+=b.weight/100;});
+  const behRaw=behWtotal>0?Math.round(behWsum/behWtotal):0;
+  const finalScore=Math.round(kpiRaw*0.65+behRaw*0.35);
+  const r=getRating(finalScore);
+  const status=document.getElementById('empStatus').value;
+  const rec=getRecommendation(finalScore,status);
+  const record={name:currentEmp.name,dept:currentEmp.dept,pos:currentEmp.pos,kpiRaw,behRaw,finalScore,rating:r.label,ratingCls:r.cls||'',ratingStyle:r.style||'',recommendation:rec,evaluator:document.getElementById('evalBy').value||'—',status,month:activeMonth};
   const idx=currentScores.findIndex(s=>s.name===currentEmp.name);
   if(idx>=0){currentScores[idx]=record;document.getElementById('saveMsg').textContent=currentEmp.name+' updated ✓';}
   else{currentScores.push(record);document.getElementById('saveMsg').textContent=currentEmp.name+' saved ✓';}
   setTimeout(()=>document.getElementById('saveMsg').textContent='',3000);
-  populateEmpSelect(); updateOverview();
+  populateEmpSelect();updateOverview();
 }
 
 function resetEntry(){
-  document.getElementById('empSel').value='';
-  document.getElementById('empDept').value='';
-  document.getElementById('evalBy').value='';
-  document.getElementById('dPresent').value=23;
-  document.getElementById('tLate').value=0;
-  document.getElementById('kpiRows').innerHTML='<p style="font-size:12px;color:#aaa">Select an employee to load KPIs.</p>';
-  document.getElementById('behavRows').innerHTML='<p style="font-size:12px;color:#aaa">Select an employee to load behavior indicators.</p>';
-  document.getElementById('kpiScore').textContent='— / 60';
-  document.getElementById('behavScore').textContent='— / 30';
-  ['rv_kpi','rv_beh','rv_att','rv_tot'].forEach(id=>document.getElementById(id).textContent='—');
-  document.getElementById('totalBar').style.width='0%';
-  document.getElementById('classBadge').className='badge bx';
-  document.getElementById('classBadge').textContent='—';
-  document.getElementById('kpiAvgDisp').textContent='';
-  document.getElementById('gateMsg').innerHTML='';
-  document.getElementById('saveMsg').textContent='';
-  currentEmp=null; calcGate();
+  document.getElementById('empSel').value='';document.getElementById('empDept').value='';
+  document.getElementById('evalBy').value='';document.getElementById('empStatus').value='probationary';
+  document.getElementById('proMonth').value='';document.getElementById('submitDate').value='';
+  document.getElementById('kpiSection').innerHTML='<p style="font-size:12px;color:#aaa">Select an employee to load their KPIs.</p>';
+  document.getElementById('behavSection').innerHTML='<p style="font-size:12px;color:#aaa">Select an employee to load behavior indicators.</p>';
+  document.getElementById('kpiRaw').textContent='— %';document.getElementById('behavRaw').textContent='— %';
+  document.getElementById('rv_kpiRaw').textContent='—';document.getElementById('rv_behRaw').textContent='—';
+  document.getElementById('rv_final').textContent='—';document.getElementById('kpiWeighted').textContent='—';
+  document.getElementById('behWeighted').textContent='—';document.getElementById('finalCalc').textContent='—';
+  document.getElementById('finalBar').style.width='0%';
+  document.getElementById('ratingBadge').className='badge bx';document.getElementById('ratingBadge').textContent='—';
+  document.getElementById('recBadge').textContent='';document.getElementById('saveMsg').textContent='';
+  currentEmp=null;
 }
 
 // ── OVERVIEW ──────────────────────────────────────────────────
 function updateOverview(){
   const s=currentScores;
   document.getElementById('ov_scored').textContent=s.length;
-  document.getElementById('ov_a').textContent=s.filter(x=>x.cl==='A Player').length;
-  const p=s.filter(x=>x.gatePass);
-  document.getElementById('ov_kpi').textContent=p.length?Math.round(p.reduce((a,x)=>a+x.avgKpi,0)/p.length)+'%':'—';
+  document.getElementById('ov_a').textContent=s.filter(x=>x.finalScore>=91).length;
+  document.getElementById('ov_avg').textContent=s.length?Math.round(s.reduce((a,x)=>a+x.finalScore,0)/s.length)+'%':'—';
   document.getElementById('scoredCount').textContent=s.length+' / '+EMPLOYEES.length+' scored';
   if(!s.length){document.getElementById('deptSummary').innerHTML='<span style="color:#888">No scores yet.</span>';return;}
   const depts=[...new Set(s.map(x=>x.dept))];
   document.getElementById('deptSummary').innerHTML=depts.map(d=>{
-    const ds=s.filter(x=>x.dept===d), p2=ds.filter(x=>x.gatePass);
-    const avg=p2.length?Math.round(p2.reduce((a,x)=>a+x.total,0)/p2.length):0;
+    const ds2=s.filter(x=>x.dept===d);
+    const avg=Math.round(ds2.reduce((a,x)=>a+x.finalScore,0)/ds2.length);
     return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-      <span class="dept-tag" style="${deptStyle(d)};min-width:80px;text-align:center">${d}</span>
-      <span style="font-size:12px;min-width:55px">${ds.length} scored</span>
-      <div class="prog" style="flex:1"><div class="progf" style="width:${avg}%;background:${avg>=85?'#639922':avg>=70?'#378ADD':'#E24B4A'}"></div></div>
-      <span style="font-size:12px;font-weight:500;min-width:50px;text-align:right">${avg}/100</span>
+      <span class="dept-tag" style="${ds(d)};min-width:80px;text-align:center">${d}</span>
+      <span style="font-size:12px;min-width:55px">${ds2.length} scored</span>
+      <div class="prog" style="flex:1"><div class="progf" style="width:${avg}%;background:${avg>=91?'#27500A':avg>=76?'#378ADD':avg>=61?'#1D9E75':'#E24B4A'}"></div></div>
+      <span style="font-size:12px;font-weight:600;min-width:50px;text-align:right">${avg}%</span>
     </div>`;
   }).join('');
 }
 
 // ── RANKING ───────────────────────────────────────────────────
 function populateDeptFilter(){
-  const sel=document.getElementById('deptFilter'), cur=sel.value;
-  const depts=[...new Set(currentScores.map(s=>s.dept))];
-  sel.innerHTML='<option value="">All departments</option>'+depts.map(d=>`<option${d===cur?' selected':''}>${d}</option>`).join('');
+  const sel=document.getElementById('deptFilter'),cur=sel.value;
+  sel.innerHTML='<option value="">All departments</option>'+[...new Set(currentScores.map(s=>s.dept))].map(d=>`<option${d===cur?' selected':''}>${d}</option>`).join('');
 }
 
 function renderRanking(){
-  const fc=document.getElementById('rankFilter').value;
-  const fd=document.getElementById('deptFilter').value;
-  const rows=[...currentScores].filter(s=>{
-    if(fc&&s.cl!==fc)return false;
-    if(fd&&s.dept!==fd)return false;
-    return true;
-  }).sort((a,b)=>b.total-a.total);
-  const top3=currentScores.filter(s=>s.gatePass).sort((a,b)=>b.total-a.total).slice(0,3);
+  const fc=document.getElementById('rankFilter').value,fd=document.getElementById('deptFilter').value;
+  const rows=[...currentScores].filter(s=>{if(fc&&s.rating!==fc)return false;if(fd&&s.dept!==fd)return false;return true;}).sort((a,b)=>b.finalScore-a.finalScore);
+  const top3=[...currentScores].sort((a,b)=>b.finalScore-a.finalScore).slice(0,3);
   const pod=document.getElementById('podium');
   if(top3.length){
     const order=top3.length>=3?[top3[1],top3[0],top3[2]]:[top3[0]];
     const st=[{bg:'#bdc3c7',tc:'#2c3e50',lbl:'🥈 2nd'},{bg:'#f9ca24',tc:'#1a1a2e',lbl:'🥇 A-Player of the Month'},{bg:'#e67e22',tc:'#fff',lbl:'🥉 3rd'}];
     pod.innerHTML=`<div style="display:grid;grid-template-columns:repeat(${order.length},1fr);gap:8px;margin-bottom:12px">
-      ${order.map((e,i)=>{
-        const s=top3.length>=3?st[i]:st[1];
-        return`<div style="background:${s.bg};color:${s.tc};border-radius:12px;padding:.75rem 1rem;text-align:center">
-          <div style="font-size:11px;font-weight:500;margin-bottom:4px">${s.lbl}</div>
-          <div style="font-size:13px;font-weight:600">${e.name.split(' ').slice(0,2).join(' ')}</div>
-          <div style="font-size:11px;opacity:.8">${e.pos}</div>
-          <div style="font-size:16px;font-weight:700;margin-top:4px">${e.total}/100</div>
-          <div style="font-size:10px;opacity:.8">KPI avg: ${e.avgKpi}%</div>
-        </div>`;
-      }).join('')}
+      ${order.map((e,i)=>{const s=top3.length>=3?st[i]:st[1];return`<div style="background:${s.bg};color:${s.tc};border-radius:12px;padding:.75rem 1rem;text-align:center">
+        <div style="font-size:11px;font-weight:600;margin-bottom:4px">${s.lbl}</div>
+        <div style="font-size:13px;font-weight:700">${e.name.split(' ').slice(0,2).join(' ')}</div>
+        <div style="font-size:11px;opacity:.8">${e.pos}</div>
+        <div style="font-size:18px;font-weight:700;margin-top:4px">${e.finalScore}%</div>
+        <div style="font-size:10px;opacity:.8">KPI: ${e.kpiRaw}% · Behav: ${e.behRaw}%</div>
+      </div>`;}).join('')}
     </div>`;
-  } else { pod.innerHTML=''; }
+  } else {pod.innerHTML='';}
   const tbody=document.getElementById('rankBody');
-  if(!rows.length){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:2rem;color:#888">No scores match filter.</td></tr>';return;}
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:2rem;color:#888">No scores match filter.</td></tr>';return;}
   tbody.innerHTML=rows.map((s,i)=>`<tr>
-    <td style="font-weight:600;text-align:center">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td>
-    <td><strong style="font-size:12px">${s.name.split(' ').slice(0,2).join(' ')}</strong><br><span style="font-size:10px;color:#888">${s.pos}</span></td>
-    <td><span class="dept-tag" style="${deptStyle(s.dept)}">${s.dept}</span></td>
-    <td style="font-weight:500;color:${s.avgKpi>=90?'#27500A':s.avgKpi>=75?'#633806':'#791F1F'}">${s.gatePass?s.avgKpi+'%':'—'}</td>
-    <td>${s.gatePass?s.kpiScore:'—'}</td>
-    <td>${s.gatePass?s.behavScore:'—'}</td>
-    <td>${s.gatePass?s.attScore:'—'}</td>
-    <td style="font-weight:600">${s.gatePass?s.total:0}</td>
-    <td><span class="badge ${badgeClass(s.cl)}">${s.cl}</span></td>
+    <td style="font-weight:700;text-align:center">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td>
+    <td><strong>${s.name.split(' ').slice(0,2).join(' ')}</strong><br><span style="font-size:10px;color:#888">${s.pos}</span></td>
+    <td><span class="dept-tag" style="${ds(s.dept)}">${s.dept}</span></td>
+    <td style="font-weight:600;color:#0C447C">${s.kpiRaw}%</td>
+    <td style="font-weight:600;color:#3C3489">${s.behRaw}%</td>
+    <td style="font-weight:700;font-size:14px;color:${s.finalScore>=76?'#27500A':s.finalScore>=61?'#0C447C':'#c0392b'}">${s.finalScore}%</td>
+    <td><span class="badge ${s.ratingCls}"${s.ratingStyle?` style="${s.ratingStyle};font-size:11px;font-weight:600;padding:2px 9px;border-radius:8px"`:''}>${s.rating}</span></td>
+    <td style="font-size:11px;color:#555;white-space:normal">${s.recommendation}</td>
   </tr>`).join('');
 }
 
-// ── FINALIZE / LOCK ───────────────────────────────────────────
+// ── FINALIZE ──────────────────────────────────────────────────
 function openModal(){
-  if(!currentScores.length){alert('No scores to finalize yet.');return;}
+  if(!currentScores.length){alert('No scores yet.');return;}
   document.getElementById('modalCount').textContent=currentScores.length;
   document.getElementById('modalMonth').textContent=activeMonth;
   document.getElementById('modalBg').classList.add('show');
 }
 function closeModal(){document.getElementById('modalBg').classList.remove('show');}
-
 function confirmFinalize(){
   closeModal();
   lockedHistory.push({month:activeMonth,scores:[...currentScores],lockedAt:new Date().toLocaleString()});
@@ -968,8 +1097,8 @@ function confirmFinalize(){
   document.getElementById('saveBtn').disabled=true;
   document.getElementById('saveBtn').style.opacity='.4';
   document.getElementById('addPanel').style.display='none';
-  renderHistory(); renderPastMonths();
-  alert('✅ '+activeMonth+' finalized and locked. '+currentScores.length+' records stored.');
+  renderHistory();renderPastMonths();
+  alert('✅ '+activeMonth+' locked. '+currentScores.length+' records stored.');
 }
 
 // ── HISTORY ───────────────────────────────────────────────────
@@ -977,25 +1106,22 @@ function renderHistory(){
   const div=document.getElementById('historyContent');
   if(!lockedHistory.length){div.innerHTML='<span style="color:#888">No locked records yet.</span>';return;}
   div.innerHTML=lockedHistory.map(h=>{
-    const aP=h.scores.filter(s=>s.cl==='A Player').sort((a,b)=>b.total-a.total);
-    const top=aP[0];
+    const top=h.scores.sort((a,b)=>b.finalScore-a.finalScore)[0];
     return`<div style="margin-bottom:20px">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
         <span class="locked-badge">🔒 ${h.month}</span>
         <span style="font-size:11px;color:#888">${h.scores.length} employees · Locked: ${h.lockedAt}</span>
-        ${top?`<span class="badge ba">🏆 ${top.name.split(' ').slice(0,2).join(' ')} — ${top.total}/100</span>`:''}
+        ${top?`<span class="badge ba">🏆 ${top.name.split(' ').slice(0,2).join(' ')} — ${top.finalScore}%</span>`:''}
       </div>
       <div style="overflow-x:auto"><table>
-        <thead><tr><th style="width:140px">Name</th><th style="width:90px">Dept</th><th style="width:58px">KPI avg</th><th style="width:50px">KPI/60</th><th style="width:52px">Beh/30</th><th style="width:50px">Att/10</th><th style="width:50px">Total</th><th style="width:88px">Class.</th></tr></thead>
-        <tbody>${h.scores.sort((a,b)=>b.total-a.total).map(s=>`<tr>
+        <thead><tr><th>Name</th><th>Dept</th><th>KPI raw</th><th>Behav raw</th><th>Final</th><th>Rating</th><th>Recommendation</th></tr></thead>
+        <tbody>${h.scores.sort((a,b)=>b.finalScore-a.finalScore).map(s=>`<tr>
           <td><strong>${s.name.split(' ').slice(0,2).join(' ')}</strong></td>
-          <td><span class="dept-tag" style="${deptStyle(s.dept)}">${s.dept}</span></td>
-          <td>${s.gatePass?s.avgKpi+'%':'—'}</td>
-          <td>${s.gatePass?s.kpiScore:'—'}</td>
-          <td>${s.gatePass?s.behavScore:'—'}</td>
-          <td>${s.gatePass?s.attScore:'—'}</td>
-          <td style="font-weight:600">${s.gatePass?s.total:0}</td>
-          <td><span class="badge ${badgeClass(s.cl)}">${s.cl}</span></td>
+          <td><span class="dept-tag" style="${ds(s.dept)}">${s.dept}</span></td>
+          <td>${s.kpiRaw}%</td><td>${s.behRaw}%</td>
+          <td style="font-weight:700">${s.finalScore}%</td>
+          <td><span class="badge ${s.ratingCls}">${s.rating}</span></td>
+          <td style="font-size:11px;white-space:normal">${s.recommendation}</td>
         </tr>`).join('')}</tbody>
       </table></div>
     </div>`;
@@ -1005,7 +1131,7 @@ function renderHistory(){
 function renderPastMonths(){
   const div=document.getElementById('pastMonthsList');
   if(!lockedHistory.length){div.innerHTML='';return;}
-  div.innerHTML='<div class="stitle" style="margin-top:12px">Previously locked</div>'+
+  div.innerHTML='<div class="stitle" style="margin-top:12px">Previously locked evaluations</div>'+
     lockedHistory.map(h=>`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #f0f0f0">
       <span class="locked-badge" style="font-size:11px">🔒 ${h.month}</span>
       <span style="font-size:12px;color:#888">${h.scores.length} employees · ${h.lockedAt}</span>
@@ -1015,24 +1141,22 @@ function renderPastMonths(){
 // ── KPI REFERENCE ─────────────────────────────────────────────
 function buildKpiRef(){
   const byDept={};
-  EMPLOYEES.forEach(e=>{
-    if(!byDept[e.dept])byDept[e.dept]=[];
-    if(!byDept[e.dept].find(x=>x.pos===e.pos))byDept[e.dept].push({pos:e.pos});
-  });
+  EMPLOYEES.forEach(e=>{if(!byDept[e.dept])byDept[e.dept]=[];if(!byDept[e.dept].find(x=>x.pos===e.pos))byDept[e.dept].push({pos:e.pos});});
   document.getElementById('kpiRefContent').innerHTML=Object.entries(byDept).map(([dept,roles])=>`
-    <div style="margin-bottom:18px">
-      <div style="display:inline-block;padding:3px 12px;border-radius:8px;${deptStyle(dept)};font-size:12px;font-weight:500;margin-bottom:8px">${dept}</div>
+    <div style="margin-bottom:20px">
+      <div style="display:inline-block;padding:3px 12px;border-radius:8px;${ds(dept)};font-size:12px;font-weight:600;margin-bottom:8px">${dept}</div>
       ${roles.map(r=>{
-        const kpis=KPI_MAP[r.pos]||[];
-        if(!kpis.length)return'';
+        const d=KPI_MAP[r.pos];if(!d)return'';
         return`<div style="margin-bottom:10px">
-          <div style="font-size:12px;font-weight:500;color:#555;margin-bottom:4px">${r.pos}</div>
-          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:3px">
-            ${kpis.map(k=>`<div style="font-size:11px;padding:4px 8px;background:#f8f8f8;border-radius:6px;display:flex;justify-content:space-between;gap:4px">
-              <span style="color:#555">${k.label}</span>
-              <span style="font-weight:500;color:#333;white-space:nowrap">${k.weight}% · T:${k.target}${k.unit==='%'?'%':' '+k.unit}${k.lower?' ↓':''}</span>
+          <div style="font-size:12px;font-weight:600;color:#555;margin-bottom:6px">${r.pos}</div>
+          ${d.kras.map(kra=>`
+            <div style="font-size:11px;font-weight:600;color:#fff;background:#2c3e50;padding:3px 8px;border-radius:5px;margin-bottom:4px">${kra.kra}</div>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:3px;margin-bottom:6px">
+              ${kra.kpis.map(k=>`<div style="font-size:11px;padding:5px 8px;background:#f8f8f8;border-radius:6px">
+                <div style="font-weight:600;color:#333">${k.label}</div>
+                <div style="color:#888;margin-top:1px">${k.weight}% · ${k.target}</div>
+              </div>`).join('')}
             </div>`).join('')}
-          </div>
         </div>`;
       }).join('')}
     </div>`).join('');
@@ -1051,7 +1175,6 @@ function showTab(t,btn){
 
 // ── INIT ──────────────────────────────────────────────────────
 buildKpiRef();
-calcGate();
 </script>
 </body>
 </html>
