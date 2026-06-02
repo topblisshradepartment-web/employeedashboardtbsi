@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A-Player KPI Scoring — Top Bliss Solutions</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;font-size:14px;color:#1a1a1a;background:#f5f5f5;padding:1rem}
+.wrap{max-width:960px;margin:0 auto}
+.tabs{display:flex;gap:6px;border-bottom:1px solid #ddd;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab{padding:7px 14px;font-size:12px;border:none;background:transparent;color:#666;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tab.active{color:#1a1a1a;border-bottom:2px solid #1a1a1a;font-weight:500}
+.sec{display:none}.sec.active{display:block}
+.card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.metric{background:#f8f8f8;border-radius:8px;padding:.75rem 1rem}
+.ml{font-size:11px;color:#888;margin-bottom:4px}
+.mv{font-size:22px;font-weight:500}
+.stitle{font-size:11px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+label{font-size:12px;color:#666;display:block;margin-bottom:3px;margin-top:8px}
+input[type=number],input[type=text],select,textarea{width:100%;padding:6px 10px;border:1px solid #ddd;border-radius:8px;font-size:12px;background:#fff;color:#1a1a1a}
+textarea{resize:vertical;min-height:54px;line-height:1.5}
+.btn{padding:7px 16px;border:1px solid #ccc;border-radius:8px;background:transparent;color:#1a1a1a;font-size:12px;cursor:pointer;font-weight:500}
+.btn:hover{background:#f0f0f0}
+.btn-p{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.btn-p:hover{opacity:.85}
+.btn-red{background:#c0392b;color:#fff;border-color:#c0392b}
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 9px;border-radius:8px}
+.ba{background:#EAF3DE;color:#27500A}
+.bb{background:#E6F1FB;color:#0C447C}
+.bc{background:#FAEEDA;color:#633806}
+.bd{background:#FCEBEB;color:#791F1F}
+.bx{background:#F1EFE8;color:#444441}
+.locked-badge{background:#1a1a2e;color:#ffd700;font-size:11px;font-weight:600;padding:3px 10px;border-radius:8px;display:inline-block}
+.frow{display:flex;gap:10px}.frow>div{flex:1}
+table{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
+th{text-align:left;padding:7px 8px;font-weight:500;font-size:11px;color:#888;border-bottom:1px solid #eee}
+td{padding:7px 8px;border-bottom:1px solid #eee;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafafa}
+.prog{height:6px;border-radius:3px;background:#eee;overflow:hidden;margin-top:4px}
+.progf{height:100%;border-radius:3px;transition:width .3s}
+.kpi-row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid #eee;gap:8px}
+.kpi-row:last-child{border-bottom:none}
+.ki{display:flex;gap:6px;align-items:center;flex-shrink:0}
+.ki input{width:70px;text-align:center}
+.katt{font-size:12px;font-weight:500;min-width:44px;text-align:right}
+.ok{background:#EAF3DE;border:1px solid #C0DD97;border-radius:8px;padding:.5rem .75rem;font-size:12px;color:#27500A;margin-bottom:8px}
+.warn{background:#FAEEDA;border:1px solid #FAC775;border-radius:8px;padding:.5rem .75rem;font-size:12px;color:#633806;margin-bottom:8px}
+.info{background:#E6F1FB;border:1px solid #B5D4F4;border-radius:8px;padding:.5rem .75rem;font-size:12px;color:#0C447C;margin-bottom:8px}
+.dept-tag{font-size:10px;padding:2px 7px;border-radius:8px;font-weight:500;white-space:nowrap}
+.wt{font-size:10px;color:#888}
+.lock-bar{background:#1a1a2e;border-radius:10px;padding:.75rem 1.25rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
+.month-pill{background:#ffd700;color:#1a1a2e;font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center}
+.modal-bg.show{display:flex}
+.modal{background:#fff;border-radius:14px;padding:1.5rem;max-width:420px;width:90%}
+.modal h3{font-size:16px;margin-bottom:8px}
+.modal p{font-size:13px;color:#555;margin-bottom:16px;line-height:1.6}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end}
+.add-panel{border:1px dashed #ccc;background:#fafafa;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem}
+</style>
+</head>
+<body>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3>🔒 Finalize &amp; lock evaluation?</h3>
+    <p>This will permanently store all <strong id="modalCount">0</strong> scored employees for <strong id="modalMonth"></strong>.<br>Once locked, scores <strong>cannot</strong> be edited or deleted.</p>
+    <div class="modal-btns">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-red" onclick="confirmFinalize()">Yes, lock this month</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+<h2 style="font-size:18px;font-weight:500;margin-bottom:4px">🏆 A-Player KPI Scoring Dashboard</h2>
+<p style="font-size:12px;color:#888;margin-bottom:1rem">Top Bliss Solutions · KPI attainment 60% + Behavior 30% + Attendance 10%</p>
+
+<!-- MONTH SETUP -->
+<div id="monthSetup" class="card">
+  <div class="stitle">Evaluation period setup</div>
+  <p style="font-size:12px;color:#888;margin-bottom:12px">Select the month you are evaluating. Scores can be updated freely until you finalize and lock.</p>
+  <div class="frow">
+    <div>
+      <label>Evaluation month</label>
+      <select id="evalMonth">
+        <option value="">Select month...</option>
+        <option>January 2026</option><option>February 2026</option><option>March 2026</option>
+        <option selected>April 2026</option><option>May 2026</option><option>June 2026</option>
+        <option>July 2026</option><option>August 2026</option><option>September 2026</option>
+        <option>October 2026</option><option>November 2026</option><option>December 2026</option>
+      </select>
+    </div>
+    <div style="display:flex;align-items:flex-end">
+      <button class="btn btn-p" onclick="startEvaluation()" style="height:34px">Start evaluation →</button>
+    </div>
+    <div style="flex:2"></div>
+  </div>
+  <div id="pastMonthsList" style="margin-top:14px"></div>
+</div>
+
+<!-- LOCK BAR -->
+<div id="lockBar" class="lock-bar" style="display:none">
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <span style="color:#a0aec0;font-size:12px">Active period:</span>
+    <span class="month-pill" id="activePill"></span>
+    <span id="lockStatus"></span>
+    <span id="scoredCount" style="font-size:11px;color:#a0aec0"></span>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button class="btn" id="addMissingBtn" style="font-size:11px;padding:5px 12px" onclick="toggleAddPanel()">➕ Add missing</button>
+    <button class="btn btn-red" id="finalizeBtn" style="font-size:11px;padding:5px 12px" onclick="openModal()">🔒 Finalize &amp; Lock</button>
+  </div>
+</div>
+
+<!-- ADD MISSING PANEL -->
+<div id="addPanel" class="add-panel" style="display:none">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <div class="stitle" style="margin-bottom:0">➕ Add missing employee or KPI</div>
+    <button class="btn" onclick="toggleAddPanel()" style="font-size:11px;padding:4px 10px">Close</button>
+  </div>
+  <div class="info" style="margin-bottom:12px">Adding here will <strong>not affect</strong> any scores already saved. Existing records stay as-is.</div>
+  <div class="g2" style="gap:20px">
+    <div>
+      <div style="font-size:12px;font-weight:500;margin-bottom:8px">Add missing employee</div>
+      <label>Full name</label><input type="text" id="newEmpName" placeholder="e.g. Cruz Jane">
+      <label>Department</label>
+      <select id="newEmpDept">
+        <option value="">Select...</option>
+        <option>Telesales</option><option>Chat Sales</option><option>Marketplace</option>
+        <option>Logistics</option><option>Creatives</option><option>Distribution Sales</option>
+        <option>Marketing</option><option>Customer Intel.</option>
+      </select>
+      <label>Position</label>
+      <select id="newEmpPos"><option value="">Select position...</option></select>
+      <button class="btn btn-p" style="margin-top:10px;width:100%" onclick="addEmployee()">Add employee</button>
+      <div id="addEmpMsg" style="font-size:11px;margin-top:6px"></div>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:500;margin-bottom:8px">Add missing KPI to a position</div>
+      <div style="font-size:11px;color:#f57f17;background:#fff9c4;border-radius:6px;padding:5px 8px;margin-bottom:8px">⚠️ Only applies to employees scored <em>after</em> this point. Saved scores are unchanged.</div>
+      <label>Position</label>
+      <select id="kpiPos"><option value="">Select position...</option></select>
+      <label>KPI label</label><input type="text" id="newKpiLabel" placeholder="e.g. Weekly Report Accuracy">
+      <label>Weight (%)</label><input type="number" id="newKpiWeight" placeholder="e.g. 10" min="1" max="100">
+      <label>Unit</label><input type="text" id="newKpiUnit" placeholder="e.g. %, pcs, ₱">
+      <label>Target value</label><input type="number" id="newKpiTarget" placeholder="e.g. 95">
+      <div style="display:flex;align-items:center;gap:6px;margin-top:8px">
+        <input type="checkbox" id="newKpiLower" style="width:auto;margin:0">
+        <label style="margin:0;font-size:12px">Lower is better</label>
+      </div>
+      <button class="btn btn-p" style="margin-top:10px;width:100%" onclick="addKpi()">Add KPI</button>
+      <div id="addKpiMsg" style="font-size:11px;margin-top:6px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN TABS -->
+<div id="mainTabs" class="tabs" style="display:none">
+  <button class="tab active" onclick="showTab('overview',this)">Overview</button>
+  <button class="tab" onclick="showTab('entry',this)">Score employee</button>
+  <button class="tab" onclick="showTab('ranking',this)">Ranking</button>
+  <button class="tab" onclick="showTab('history',this)">Locked history</button>
+  <button class="tab" onclick="showTab('kpiref',this)">KPI reference</button>
+</div>
+
+<!-- OVERVIEW -->
+<div id="tab-overview" class="sec">
+  <div class="g4" style="margin-bottom:1rem">
+    <div class="metric"><div class="ml">Eligible employees</div><div class="mv" id="ov_elig">20</div></div>
+    <div class="metric"><div class="ml">Scored this month</div><div class="mv" id="ov_scored">0</div></div>
+    <div class="metric"><div class="ml">A Players</div><div class="mv" style="color:#27500A" id="ov_a">0</div></div>
+    <div class="metric"><div class="ml">Avg KPI attainment</div><div class="mv" id="ov_kpi">—</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="stitle">Scoring weights</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div><div style="display:flex;justify-content:space-between;font-size:12px"><span>KPI attainment</span><strong>60%</strong></div><div class="prog"><div class="progf" style="width:60%;background:#378ADD"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font-size:12px"><span>Behavior + culture</span><strong>30%</strong></div><div class="prog"><div class="progf" style="width:30%;background:#1D9E75"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font-size:12px"><span>Attendance</span><strong>10%</strong></div><div class="prog"><div class="progf" style="width:10%;background:#EF9F27"></div></div></div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:#888;border-top:1px solid #eee;padding-top:8px">
+        Gate: 100% attendance + 0 tardiness required<br>
+        KPI weights are role-specific per position<br>
+        Behavior requires written evidence
+      </div>
+    </div>
+    <div class="card">
+      <div class="stitle">Classification</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:center;gap:8px"><span class="badge ba">A Player</span><span style="font-size:12px">85–100 · KPI ≥90% · Behavior ≥4</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="badge bb">B Player</span><span style="font-size:12px">70–84 · Good KPI + strong culture</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="badge bc">C Player</span><span style="font-size:12px">High KPI + culture avg &lt;3</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="badge bd">D Player</span><span style="font-size:12px">Low KPI + low behavior</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="badge bx">Blocked</span><span style="font-size:12px">Any absence or tardiness</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card"><div class="stitle">Department summary</div><div id="deptSummary" style="font-size:12px;color:#888">No scores yet.</div></div>
+</div>
+
+<!-- SCORE ENTRY -->
+<div id="tab-entry" class="sec">
+  <div id="lockedNotice" class="warn" style="display:none">🔒 This period is locked. No edits allowed.</div>
+  <div class="card">
+    <div class="stitle">Employee</div>
+    <div class="frow">
+      <div><label>Select employee</label><select id="empSel" onchange="loadEmp()"><option value="">Choose...</option></select></div>
+      <div><label>Dept / Position</label><input type="text" id="empDept" readonly style="background:#f8f8f8"></div>
+      <div><label>Evaluated by</label><input type="text" id="evalBy" placeholder="Team leader name"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="stitle">Attendance gate — 100% + 0 tardiness required</div>
+    <div class="frow">
+      <div><label>Working days</label><input type="number" id="wDays" value="23" min="1" oninput="calcAll()"></div>
+      <div><label>Days present</label><input type="number" id="dPresent" value="23" min="0" oninput="calcAll()"></div>
+      <div><label>Times late</label><input type="number" id="tLate" value="0" min="0" oninput="calcAll()"></div>
+    </div>
+    <div id="gateMsg" style="margin-top:8px"></div>
+  </div>
+  <div class="card">
+    <div class="stitle">KPI attainment — actual vs target (role-weighted)</div>
+    <p style="font-size:11px;color:#888;margin-bottom:10px">Each KPI carries its own weight. Enter actual and target — weighted attainment is auto-computed.</p>
+    <div id="kpiRows"><p style="font-size:12px;color:#aaa">Select an employee to load KPIs.</p></div>
+    <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid #eee">
+      <span style="font-size:12px;color:#888">KPI score (60%)</span><strong id="kpiScore">— / 60</strong>
+    </div>
+  </div>
+  <div class="card">
+    <div class="stitle">Behavior & culture (30% — evidence required per indicator)</div>
+    <div id="behavRows"><p style="font-size:12px;color:#aaa">Select an employee to load behavior indicators.</p></div>
+    <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid #eee">
+      <span style="font-size:12px;color:#888">Behavior score (30%)</span><strong id="behavScore">— / 30</strong>
+    </div>
+  </div>
+  <div class="card">
+    <div class="stitle">Live preview</div>
+    <div class="g4" style="margin-bottom:10px">
+      <div class="metric"><div class="ml">KPI /60</div><div class="mv" id="rv_kpi">—</div></div>
+      <div class="metric"><div class="ml">Behavior /30</div><div class="mv" id="rv_beh">—</div></div>
+      <div class="metric"><div class="ml">Attendance /10</div><div class="mv" id="rv_att">—</div></div>
+      <div class="metric"><div class="ml">Total /100</div><div class="mv" id="rv_tot">—</div></div>
+    </div>
+    <div style="margin-bottom:10px"><div class="prog"><div class="progf" id="totalBar" style="width:0%;background:#378ADD"></div></div></div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <span style="font-size:12px;color:#888">Classification:</span>
+      <span id="classBadge" class="badge bx">—</span>
+      <span id="kpiAvgDisp" style="font-size:11px;color:#888"></span>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-p" id="saveBtn" onclick="saveScore()">Save score</button>
+      <button class="btn" onclick="resetEntry()">Reset</button>
+    </div>
+    <div id="saveMsg" style="margin-top:6px;font-size:12px;color:#888"></div>
+  </div>
+</div>
+
+<!-- RANKING -->
+<div id="tab-ranking" class="sec">
+  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+    <select id="rankFilter" onchange="renderRanking()" style="width:160px">
+      <option value="">All classifications</option>
+      <option>A Player</option><option>B Player</option><option>C Player</option><option>D Player</option><option>Blocked</option>
+    </select>
+    <select id="deptFilter" onchange="renderRanking()" style="width:160px"><option value="">All departments</option></select>
+  </div>
+  <div id="podium" style="margin-bottom:1rem"></div>
+  <div class="card" style="padding:0;overflow-x:auto">
+    <table>
+      <thead><tr>
+        <th style="width:32px">#</th><th style="width:145px">Name</th><th style="width:90px">Dept</th>
+        <th style="width:58px">KPI avg</th><th style="width:52px">KPI/60</th>
+        <th style="width:55px">Beh/30</th><th style="width:50px">Att/10</th>
+        <th style="width:52px">Total</th><th style="width:88px">Class.</th>
+      </tr></thead>
+      <tbody id="rankBody"><tr><td colspan="9" style="text-align:center;padding:2rem;color:#888">No scores yet.</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- LOCKED HISTORY -->
+<div id="tab-history" class="sec">
+  <div class="card">
+    <div class="stitle">Locked evaluation records</div>
+    <p style="font-size:12px;color:#888;margin-bottom:12px">Finalized months are permanently stored here.</p>
+    <div id="historyContent" style="font-size:12px;color:#888">No locked records yet.</div>
+  </div>
+</div>
+
+<!-- KPI REFERENCE -->
+<div id="tab-kpiref" class="sec">
+  <div class="card">
+    <div class="stitle">KPI framework — role-specific</div>
+    <p style="font-size:12px;color:#888;margin-bottom:12px">Weights and targets per position. Team leaders enter actual vs target monthly.</p>
+    <div id="kpiRefContent"></div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+// ── KPI DATA ─────────────────────────────────────────────────
+const KPI_MAP = {
+  "Telesales Trainee":[
+    {label:"Sales Conversion Rate",weight:30,unit:"%",target:15},
+    {label:"Daily Sales Volume / Quota",weight:25,unit:"pcs",target:20},
+    {label:"Call Productivity",weight:15,unit:"calls",target:40},
+    {label:"Follow-up Completion",weight:10,unit:"%",target:90},
+    {label:"QA Score",weight:10,unit:"%",target:85},
+    {label:"Data Accuracy",weight:10,unit:"%",target:98},
+  ],
+  "Telesales Team Leader":[
+    {label:"Customer Retention Rate",weight:25,unit:"%",target:80},
+    {label:"Team Telesales Success Rate",weight:20,unit:"%",target:75},
+    {label:"Team Quota Achievement",weight:20,unit:"%",target:100},
+    {label:"Reactivation Rate",weight:10,unit:"%",target:20},
+    {label:"Team QA Average",weight:10,unit:"%",target:85},
+    {label:"Reporting Accuracy",weight:10,unit:"%",target:98},
+    {label:"Call Productivity Monitoring",weight:5,unit:"%",target:90},
+  ],
+  "Telesales Supervisor":[
+    {label:"% of Database Activated",weight:20,unit:"%",target:30},
+    {label:"Revenue from Retention Programs",weight:20,unit:"₱",target:100000},
+    {label:"Reactivation Rate",weight:15,unit:"%",target:20},
+    {label:"Repeat Purchase Rate",weight:15,unit:"%",target:40},
+    {label:"Campaign Conversion Rate",weight:10,unit:"%",target:15},
+    {label:"LTV Growth",weight:10,unit:"%",target:10},
+    {label:"Cost per Reactivation",weight:10,unit:"₱",target:50,lower:true},
+  ],
+  "Chat Sales Agent":[
+    {label:"Sales Conversion Rate",weight:30,unit:"%",target:20},
+    {label:"Daily Sales Volume / Quota",weight:25,unit:"pcs",target:25},
+    {label:"Response Time",weight:15,unit:"min",target:3,lower:true},
+    {label:"Revenue Generated",weight:15,unit:"₱",target:30000},
+    {label:"Chat Handling Productivity",weight:10,unit:"chats",target:60},
+    {label:"Data Accuracy",weight:5,unit:"%",target:98},
+  ],
+  "Chat Sales Supervisor":[
+    {label:"Chat Sales Revenue vs Target",weight:35,unit:"%",target:100},
+    {label:"Conversion Rate",weight:15,unit:"%",target:20},
+    {label:"Response Time",weight:10,unit:"min",target:3,lower:true},
+    {label:"Customer Coverage Rate",weight:10,unit:"%",target:90},
+    {label:"Agent Sales Performance Compliance",weight:10,unit:"%",target:90},
+    {label:"Report Accuracy",weight:5,unit:"%",target:98},
+    {label:"Coaching Effectiveness",weight:5,unit:"%",target:80},
+    {label:"Staff Retention",weight:5,unit:"%",target:90},
+    {label:"Training Completion",weight:5,unit:"%",target:100},
+  ],
+  "QA Analyst":[
+    {label:"QA Audit Accuracy",weight:20,unit:"%",target:95},
+    {label:"QA Coverage",weight:15,unit:"%",target:90},
+    {label:"Critical Error Detection",weight:15,unit:"%",target:95},
+    {label:"Agent QA Score Improvement",weight:15,unit:"%",target:10},
+    {label:"Coaching Effectiveness Post-QA",weight:10,unit:"%",target:80},
+    {label:"Report Submission Timeliness",weight:10,unit:"%",target:100},
+    {label:"CSAT Correlation",weight:10,unit:"%",target:85},
+    {label:"RTS Reduction Impact",weight:5,unit:"%",target:5},
+  ],
+  "CSR":[
+    {label:"RTS Rate",weight:25,unit:"%",target:5,lower:true},
+    {label:"Successful Delivery Rate",weight:20,unit:"%",target:95},
+    {label:"Order Confirmation Rate",weight:15,unit:"%",target:98},
+    {label:"CSAT",weight:15,unit:"%",target:90},
+    {label:"First Response Time",weight:10,unit:"hrs",target:1,lower:true},
+    {label:"Post-Delivery Follow-up",weight:10,unit:"%",target:90},
+    {label:"Order Cancellation Prevention",weight:5,unit:"%",target:95},
+  ],
+  "Distribution Head":[
+    {label:"Distributor Sales Growth Rate",weight:20,unit:"%",target:10},
+    {label:"Distributor Retention Rate",weight:15,unit:"%",target:90},
+    {label:"Weekly Payout Accuracy",weight:15,unit:"%",target:100},
+    {label:"Reactivation Success Rate",weight:10,unit:"%",target:20},
+    {label:"Order Processing SLA",weight:10,unit:"%",target:95},
+    {label:"Concern Resolution SLA",weight:10,unit:"%",target:90},
+    {label:"Promo Participation Rate",weight:10,unit:"%",target:80},
+    {label:"Check-in Completion Rate",weight:10,unit:"%",target:100},
+  ],
+  "Creative Head":[
+    {label:"Scripts Submitted Before Shoot Day",weight:25,unit:"%",target:100},
+    {label:"Hook Variations per Script",weight:20,unit:"pcs",target:3},
+    {label:"Weekly Script Output Volume",weight:20,unit:"pcs",target:5},
+    {label:"Winning Script Contribution",weight:20,unit:"%",target:20},
+    {label:"Organic Note Inclusion",weight:10,unit:"%",target:100},
+    {label:"Shoot Day Direction Quality",weight:5,unit:"%",target:90},
+  ],
+  "Ads Strategist":[
+    {label:"Cost Per Lead (CPL)",weight:20,unit:"₱",target:50,lower:true},
+    {label:"Qualified Lead Volume",weight:15,unit:"leads",target:100},
+    {label:"CTR",weight:15,unit:"%",target:2},
+    {label:"ROAS",weight:15,unit:"x",target:3},
+    {label:"Conversion Rate Lead-to-Sale",weight:10,unit:"%",target:10},
+    {label:"Winning Campaign Identification",weight:10,unit:"pcs",target:2},
+    {label:"Budget Utilization Rate",weight:10,unit:"%",target:95},
+    {label:"Weekly Scoreboard Submission",weight:5,unit:"%",target:100},
+  ],
+  "Video Editor":[
+    {label:"Monthly Video Output Volume",weight:25,unit:"pcs",target:20},
+    {label:"Daily Ad Creative Output",weight:20,unit:"pcs",target:1},
+    {label:"Hook Variations per Raw Clip",weight:15,unit:"pcs",target:3},
+    {label:"On-Time Delivery Rate",weight:20,unit:"%",target:95},
+    {label:"Creative Iteration Speed",weight:10,unit:"hrs",target:24,lower:true},
+    {label:"Winning Creative Contribution",weight:10,unit:"%",target:15},
+  ],
+  "Senior Video Editor":[
+    {label:"Monthly Video Output Volume",weight:25,unit:"pcs",target:25},
+    {label:"Daily Ad Creative Output",weight:20,unit:"pcs",target:2},
+    {label:"Hook Variations per Raw Clip",weight:15,unit:"pcs",target:4},
+    {label:"On-Time Delivery Rate",weight:20,unit:"%",target:98},
+    {label:"Creative Iteration Speed",weight:10,unit:"hrs",target:12,lower:true},
+    {label:"Winning Creative Contribution",weight:10,unit:"%",target:20},
+  ],
+  "Graphic Artist":[
+    {label:"Monthly Output Volume",weight:25,unit:"pcs",target:20},
+    {label:"Daily Ad Creative Output",weight:20,unit:"pcs",target:2},
+    {label:"Hook Variations per Raw Clip",weight:15,unit:"pcs",target:3},
+    {label:"On-Time Delivery Rate",weight:20,unit:"%",target:95},
+    {label:"Creative Iteration Speed",weight:10,unit:"hrs",target:24,lower:true},
+    {label:"Winning Creative Contribution",weight:10,unit:"%",target:10},
+  ],
+  "Fulfillment Associate":[
+    {label:"Order Process Accuracy Rate",weight:20,unit:"%",target:98},
+    {label:"Shipping Accuracy Rate",weight:15,unit:"%",target:98},
+    {label:"Completion Rate",weight:10,unit:"%",target:95},
+    {label:"Order Fulfillment Time Rate",weight:10,unit:"%",target:95},
+    {label:"Order Error Rate",weight:10,unit:"%",target:2,lower:true},
+    {label:"Duplicate Entries Rate",weight:10,unit:"%",target:1,lower:true},
+    {label:"Customer Complaints Rate",weight:10,unit:"%",target:2,lower:true},
+    {label:"Backlog of Orders Rate",weight:5,unit:"%",target:5,lower:true},
+    {label:"Team Collaboration Rate",weight:5,unit:"%",target:90},
+  ],
+  "Logistics Processor":[
+    {label:"Accuracy of Dispatch Orders",weight:15,unit:"%",target:98},
+    {label:"Order Process Accuracy Rate",weight:20,unit:"%",target:98},
+    {label:"Shipping Accuracy Rate",weight:15,unit:"%",target:98},
+    {label:"Completion Rate",weight:10,unit:"%",target:95},
+    {label:"Order Error Rate",weight:10,unit:"%",target:2,lower:true},
+    {label:"Duplicate Entries Rate",weight:10,unit:"%",target:1,lower:true},
+    {label:"Customer Complaints Rate",weight:10,unit:"%",target:2,lower:true},
+    {label:"Backlog of Orders Rate",weight:5,unit:"%",target:5,lower:true},
+    {label:"Team Collaboration Rate",weight:5,unit:"%",target:90},
+  ],
+  "Warehouse Trainee":[
+    {label:"Accuracy of Orders Fulfilled",weight:15,unit:"%",target:98},
+    {label:"Picking Efficiency Rate",weight:15,unit:"%",target:95},
+    {label:"Inventory Accuracy",weight:15,unit:"%",target:98},
+    {label:"Packing Efficiency Rate",weight:10,unit:"%",target:95},
+    {label:"Time to Stock Items",weight:10,unit:"hrs",target:4,lower:true},
+    {label:"Receiving Returned Parcels",weight:10,unit:"%",target:100},
+    {label:"Damaged Items Rate",weight:5,unit:"%",target:1,lower:true},
+    {label:"Equipment Handling Rate",weight:5,unit:"%",target:98},
+    {label:"Team Collaboration Rate",weight:5,unit:"%",target:90},
+    {label:"Attendance & Punctuality",weight:5,unit:"%",target:100},
+  ],
+  "Marketplace Supervisor":[
+    {label:"Marketplace Revenue Achievement",weight:25,unit:"%",target:100},
+    {label:"ROAS Performance",weight:20,unit:"x",target:10},
+    {label:"Market Proof Ready Campaigns",weight:10,unit:"pcs",target:4},
+    {label:"SOP Compliance",weight:10,unit:"%",target:100},
+    {label:"Fulfillment SLA",weight:10,unit:"%",target:95},
+    {label:"Operational Issue Resolution",weight:5,unit:"%",target:90},
+    {label:"TikTok Revenue Contribution Growth",weight:10,unit:"%",target:10},
+    {label:"Affiliate Sales Growth",weight:5,unit:"%",target:10},
+    {label:"Team KPI Achievement Rate",weight:5,unit:"%",target:80},
+  ],
+  "TikTok Content Creator":[
+    {label:"Daily Revenue Target (ROAS 10+)",weight:30,unit:"₱",target:10000},
+    {label:"Content Consistency",weight:20,unit:"posts",target:30},
+    {label:"Shop Health Excellence",weight:20,unit:"%",target:100},
+    {label:"Chat Response Rate",weight:15,unit:"%",target:90},
+    {label:"Zero Penalty & Violation",weight:10,unit:"violations",target:0,lower:true},
+    {label:"Live Selling Performance",weight:5,unit:"₱",target:5000},
+  ],
+  "Live Seller":[
+    {label:"Daily Sales Target Achievement",weight:40,unit:"%",target:100},
+    {label:"Zero Violation & Zero Penalty",weight:25,unit:"violations",target:0,lower:true},
+    {label:"Live Session Completion Rate",weight:15,unit:"%",target:100},
+    {label:"Viewer Engagement & Retention",weight:10,unit:"%",target:30},
+    {label:"Live Moderation Support",weight:10,unit:"%",target:90},
+  ],
+  "Marketplace Associate":[
+    {label:"Marketplace Revenue Achievement",weight:25,unit:"%",target:100},
+    {label:"ROAS Performance",weight:20,unit:"x",target:8},
+    {label:"SOP Compliance",weight:15,unit:"%",target:100},
+    {label:"Fulfillment SLA",weight:15,unit:"%",target:95},
+    {label:"Content Output",weight:15,unit:"pcs",target:20},
+    {label:"Operational Issue Resolution",weight:10,unit:"%",target:90},
+  ],
+};
+
+const DEPT_COLORS={
+  "Telesales":{bg:"#E6F1FB",tc:"#0C447C"},
+  "Chat Sales":{bg:"#EEEDFE",tc:"#3C3489"},
+  "Marketplace":{bg:"#FFF8E1",tc:"#633806"},
+  "Logistics":{bg:"#E1F5EE",tc:"#085041"},
+  "Creatives":{bg:"#FBEAF0",tc:"#72243E"},
+  "Distribution Sales":{bg:"#F1EFE8",tc:"#444441"},
+  "Marketing":{bg:"#EAF3DE",tc:"#27500A"},
+  "Customer Intel.":{bg:"#FAECE7",tc:"#712B13"},
+};
+
+const BEHAVIORS=[
+  {label:"Be the right who",desc:"Accountability, no blaming, solution-oriented"},
+  {label:"Commitment to team success",desc:"Prioritizes team results over ego"},
+  {label:"Always leveling up",desc:"Proactively learns and improves"},
+  {label:"Join the journey",desc:"Positive energy, adaptable, aligned"},
+  {label:"WIN. WIN. WIN.",desc:"Decisions benefit company, team, and customer"},
+];
+
+// Mutable employee list — can be added to mid-process
+let EMPLOYEES=[
+  {name:"Bernardino Hazel Mae S",dept:"Marketplace",pos:"Marketplace Supervisor"},
+  {name:"Carandang Angela",dept:"Chat Sales",pos:"Chat Sales Supervisor"},
+  {name:"Ruado Maricris R",dept:"Telesales",pos:"Telesales Supervisor"},
+  {name:"Vidal Farah Mae T",dept:"Telesales",pos:"Telesales Team Leader"},
+  {name:"Sacueza Rosalie P",dept:"Distribution Sales",pos:"CSR"},
+  {name:"Santiago Joan A",dept:"Customer Intel.",pos:"QA Analyst"},
+  {name:"Flores Carlo G",dept:"Logistics",pos:"Fulfillment Associate"},
+  {name:"Duldulao Elvin A",dept:"Logistics",pos:"Fulfillment Associate"},
+  {name:"Dee Pona Harvey B",dept:"Logistics",pos:"Logistics Processor"},
+  {name:"Truelen Arnel T",dept:"Creatives",pos:"Creative Head"},
+  {name:"Fuller Arianette G",dept:"Creatives",pos:"Graphic Artist"},
+  {name:"Oliva Jonnel C",dept:"Creatives",pos:"Senior Video Editor"},
+  {name:"Marcos Marivi U",dept:"Distribution Sales",pos:"Distribution Head"},
+  {name:"Bolado Mary Margareth",dept:"Marketplace",pos:"Marketplace Associate"},
+  {name:"Rosario Allan",dept:"Marketing",pos:"Ads Strategist"},
+  {name:"Garay Xian",dept:"Creatives",pos:"Video Editor"},
+  {name:"Consencino Joy",dept:"Telesales",pos:"Telesales Trainee"},
+  {name:"Boyles Mary Ann S",dept:"Telesales",pos:"Telesales Trainee"},
+  {name:"Bolasoc Nicole B",dept:"Chat Sales",pos:"Chat Sales Agent"},
+  {name:"Sevillon Regina M",dept:"Chat Sales",pos:"Chat Sales Agent"},
+];
+
+// State
+let activeMonth=null, isLocked=false, currentScores=[], lockedHistory=[], currentEmp=null;
+
+// ── HELPERS ──────────────────────────────────────────────────
+function classify(total,avgKpi,avgBehav,gatePass){
+  if(!gatePass)return'Blocked';
+  if(total>=85&&avgKpi>=90&&avgBehav>=4)return'A Player';
+  if(total>=70&&avgBehav>=3.5)return'B Player';
+  if(total>=70&&avgBehav<3)return'C Player';
+  return'D Player';
+}
+function badgeClass(cl){return{['A Player']:'ba',['B Player']:'bb',['C Player']:'bc',['D Player']:'bd',['Blocked']:'bx'}[cl]||'bx';}
+function deptStyle(d){const c=DEPT_COLORS[d]||{bg:'#f1f1f1',tc:'#333'};return`background:${c.bg};color:${c.tc}`;}
+
+function computeScore(pos,gatePass){
+  const kpis=KPI_MAP[pos]||[];
+  let wAtt=0,tW=0;
+  kpis.forEach((k,i)=>{
+    const a=parseFloat(document.getElementById('ka_'+i)?.value)||0;
+    const t=parseFloat(document.getElementById('kt_'+i)?.value)||0.01;
+    let att=k.lower?Math.min((t/Math.max(a,1e-9))*100,150):Math.min((a/t)*100,150);
+    wAtt+=Math.round(att)*(k.weight/100); tW+=k.weight/100;
+  });
+  const avgKpi=tW>0?Math.round(wAtt/tW):0;
+  const kpiScore=Math.round(Math.min(avgKpi/100*60,60));
+  let behavSum=0;
+  BEHAVIORS.forEach((_,i)=>{behavSum+=parseInt(document.getElementById('bs_'+i)?.value)||3;});
+  const behavScore=Math.round((behavSum/(BEHAVIORS.length*5))*30);
+  const attScore=gatePass?10:0;
+  const total=gatePass?kpiScore+behavScore+attScore:0;
+  const avgBehav=behavSum/BEHAVIORS.length;
+  return{avgKpi,kpiScore,behavScore,attScore,total,avgBehav};
+}
+
+// ── MONTH SETUP ───────────────────────────────────────────────
+function startEvaluation(){
+  const m=document.getElementById('evalMonth').value;
+  if(!m){alert('Select a month first.');return;}
+  if(lockedHistory.find(h=>h.month===m)){alert(m+' is already locked. View it in Locked History.');return;}
+  activeMonth=m; isLocked=false; currentScores=[]; currentEmp=null;
+  document.getElementById('monthSetup').style.display='none';
+  document.getElementById('lockBar').style.display='flex';
+  document.getElementById('mainTabs').style.display='flex';
+  document.getElementById('activePill').textContent=m;
+  document.getElementById('lockStatus').innerHTML='<span style="background:#EAF3DE;color:#27500A;font-size:11px;font-weight:500;padding:2px 8px;border-radius:6px">● Open</span>';
+  document.getElementById('ov_elig').textContent=EMPLOYEES.length;
+  populateEmpSelect();
+  updateOverview();
+  showTab('overview',document.querySelectorAll('#mainTabs .tab')[0]);
+  renderPastMonths();
+}
+
+// ── ADD MISSING PANEL ─────────────────────────────────────────
+function toggleAddPanel(){
+  const p=document.getElementById('addPanel');
+  const opening=p.style.display==='none'||p.style.display==='';
+  p.style.display=opening?'block':'none';
+  if(opening) refreshAddPanelDropdowns();
+}
+
+function refreshAddPanelDropdowns(){
+  const positions=Object.keys(KPI_MAP).sort();
+  ['newEmpPos','kpiPos'].forEach(id=>{
+    const sel=document.getElementById(id);
+    if(!sel)return;
+    const cur=sel.value;
+    sel.innerHTML='<option value="">Select position...</option>'+
+      positions.map(p=>`<option${p===cur?' selected':''}>${p}</option>`).join('');
+  });
+}
+
+function addEmployee(){
+  const name=document.getElementById('newEmpName').value.trim();
+  const dept=document.getElementById('newEmpDept').value;
+  const pos=document.getElementById('newEmpPos').value;
+  const msg=document.getElementById('addEmpMsg');
+  if(!name||!dept||!pos){msg.style.color='#c0392b';msg.textContent='Fill in all fields.';return;}
+  if(EMPLOYEES.find(e=>e.name.toLowerCase()===name.toLowerCase())){msg.style.color='#c0392b';msg.textContent='Employee already exists.';return;}
+  EMPLOYEES.push({name,dept,pos});
+  msg.style.color='#27500A';
+  msg.textContent=name+' added. Now visible in the Score employee tab.';
+  document.getElementById('newEmpName').value='';
+  document.getElementById('newEmpDept').value='';
+  document.getElementById('newEmpPos').value='';
+  document.getElementById('ov_elig').textContent=EMPLOYEES.length;
+  populateEmpSelect();
+  setTimeout(()=>msg.textContent='',4000);
+}
+
+function addKpi(){
+  const pos=document.getElementById('kpiPos').value;
+  const label=document.getElementById('newKpiLabel').value.trim();
+  const weight=parseInt(document.getElementById('newKpiWeight').value)||0;
+  const unit=document.getElementById('newKpiUnit').value.trim()||'%';
+  const target=parseFloat(document.getElementById('newKpiTarget').value);
+  const lower=document.getElementById('newKpiLower').checked;
+  const msg=document.getElementById('addKpiMsg');
+  if(!pos||!label||!weight||isNaN(target)){msg.style.color='#c0392b';msg.textContent='Fill in all fields.';return;}
+  if(!KPI_MAP[pos])KPI_MAP[pos]=[];
+  KPI_MAP[pos].push({label,weight,unit,target,lower});
+  msg.style.color='#27500A';
+  msg.textContent=`"${label}" added to ${pos}. Applies to scores from this point forward.`;
+  document.getElementById('newKpiLabel').value='';
+  document.getElementById('newKpiWeight').value='';
+  document.getElementById('newKpiUnit').value='';
+  document.getElementById('newKpiTarget').value='';
+  document.getElementById('newKpiLower').checked=false;
+  buildKpiRef();
+  setTimeout(()=>msg.textContent='',5000);
+}
+
+// ── SCORING FORM ──────────────────────────────────────────────
+function populateEmpSelect(){
+  const sel=document.getElementById('empSel');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">Choose...</option>';
+  EMPLOYEES.forEach(e=>{
+    const scored=currentScores.find(s=>s.name===e.name);
+    const o=document.createElement('option');
+    o.value=e.name;
+    o.textContent=e.name+(scored?' ✓':'');
+    if(e.name===cur)o.selected=true;
+    sel.appendChild(o);
+  });
+}
+
+function loadEmp(){
+  const name=document.getElementById('empSel').value;
+  const emp=EMPLOYEES.find(e=>e.name===name);
+  if(!emp){currentEmp=null;return;}
+  currentEmp=emp;
+  document.getElementById('empDept').value=emp.dept+' · '+emp.pos;
+  buildKpiRows(emp.pos);
+  buildBehavRows();
+  const prev=currentScores.find(s=>s.name===name);
+  if(prev){
+    document.getElementById('evalBy').value=prev.evaluator||'';
+    document.getElementById('saveMsg').textContent='Previously scored: '+prev.total+'/100 ('+prev.cl+'). You can update before locking.';
+  } else {
+    document.getElementById('saveMsg').textContent='';
+  }
+  calcAll();
+}
+
+function buildKpiRows(pos){
+  const kpis=KPI_MAP[pos]||[];
+  if(!kpis.length){document.getElementById('kpiRows').innerHTML='<p style="font-size:12px;color:#aaa">No KPIs mapped for this position.</p>';return;}
+  document.getElementById('kpiRows').innerHTML=kpis.map((k,i)=>`
+    <div class="kpi-row">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:500">${k.label} <span class="wt">${k.weight}%</span></div>
+        <div style="font-size:11px;color:#888">Target: ${k.target} ${k.unit}${k.lower?' (lower is better)':''}</div>
+      </div>
+      <div class="ki">
+        <div><div style="font-size:10px;color:#888;text-align:center">Actual</div><input type="number" id="ka_${i}" value="${k.target}" min="0" step="any" oninput="calcAll()"></div>
+        <div><div style="font-size:10px;color:#888;text-align:center">Target</div><input type="number" id="kt_${i}" value="${k.target}" min="0.01" step="any" oninput="calcAll()"></div>
+        <div class="katt" id="katt_${i}">100%</div>
+      </div>
+    </div>`).join('');
+}
+
+function buildBehavRows(){
+  document.getElementById('behavRows').innerHTML=BEHAVIORS.map((b,i)=>`
+    <div style="padding:8px 0;border-bottom:1px solid #eee">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px">
+        <div>
+          <div style="font-size:12px;font-weight:500">${b.label}</div>
+          <div style="font-size:11px;color:#888">${b.desc}</div>
+        </div>
+        <select id="bs_${i}" onchange="calcAll()" style="width:130px;flex-shrink:0">
+          <option value="1">1 — Far below</option><option value="2">2 — Below</option>
+          <option value="3" selected>3 — Meets</option><option value="4">4 — Exceeds</option>
+          <option value="5">5 — Exceptional</option>
+        </select>
+      </div>
+      <label>Evidence / observation (required)</label>
+      <textarea id="be_${i}" placeholder="Describe specific observed behavior..."></textarea>
+    </div>`).join('');
+}
+
+function calcGate(){
+  const wd=parseInt(document.getElementById('wDays').value)||23;
+  const dp=parseInt(document.getElementById('dPresent').value)||0;
+  const tl=parseInt(document.getElementById('tLate').value)||0;
+  const rate=Math.round((dp/wd)*100);
+  const pass=dp===wd&&tl===0;
+  document.getElementById('gateMsg').innerHTML=`<div class="${pass?'ok':'warn'}">Attendance: <strong>${rate}%</strong> · Tardiness: <strong>${tl}x</strong> — ${pass?'✅ Perfect attendance. Gate passed.':'❌ Gate failed — 100% present + 0 tardiness required.'}</div>`;
+  return pass;
+}
+
+function calcAll(){
+  const gatePass=calcGate();
+  if(!currentEmp)return;
+  const kpis=KPI_MAP[currentEmp.pos]||[];
+  let wAtt=0,tW=0;
+  kpis.forEach((k,i)=>{
+    const a=parseFloat(document.getElementById('ka_'+i)?.value)||0;
+    const t=parseFloat(document.getElementById('kt_'+i)?.value)||0.01;
+    let att=k.lower?Math.min((t/Math.max(a,1e-9))*100,150):Math.min((a/t)*100,150);
+    att=Math.round(att);
+    wAtt+=att*(k.weight/100); tW+=k.weight/100;
+    const el=document.getElementById('katt_'+i);
+    if(el){el.textContent=att+'%';el.style.color=att>=100?'#27500A':att>=80?'#633806':'#791F1F';}
+  });
+  const avgKpi=tW>0?Math.round(wAtt/tW):0;
+  const kpiScore=Math.round(Math.min(avgKpi/100*60,60));
+  document.getElementById('kpiScore').textContent=kpiScore+' / 60';
+  let behavSum=0;
+  BEHAVIORS.forEach((_,i)=>{behavSum+=parseInt(document.getElementById('bs_'+i)?.value)||3;});
+  const behavScore=Math.round((behavSum/(BEHAVIORS.length*5))*30);
+  document.getElementById('behavScore').textContent=behavScore+' / 30';
+  const attScore=gatePass?10:0;
+  const total=gatePass?kpiScore+behavScore+attScore:0;
+  const avgBehav=behavSum/BEHAVIORS.length;
+  document.getElementById('rv_kpi').textContent=gatePass?kpiScore:'—';
+  document.getElementById('rv_beh').textContent=gatePass?behavScore:'—';
+  document.getElementById('rv_att').textContent=gatePass?attScore:'—';
+  document.getElementById('rv_tot').textContent=gatePass?total:'0';
+  document.getElementById('kpiAvgDisp').textContent=gatePass?'KPI avg: '+avgKpi+'%':'';
+  const bar=document.getElementById('totalBar');
+  bar.style.width=total+'%';
+  bar.style.background=total>=85?'#639922':total>=70?'#378ADD':total>=50?'#EF9F27':'#E24B4A';
+  const cl=classify(total,avgKpi,avgBehav,gatePass);
+  const badge=document.getElementById('classBadge');
+  badge.className='badge '+badgeClass(cl); badge.textContent=cl;
+}
+
+function saveScore(){
+  if(isLocked){alert('This period is locked.');return;}
+  if(!currentEmp){document.getElementById('saveMsg').textContent='Select an employee first.';return;}
+  const gatePass=calcGate();
+  const kpis=KPI_MAP[currentEmp.pos]||[];
+  let wAtt=0,tW=0,behavSum=0;
+  kpis.forEach((k,i)=>{
+    const a=parseFloat(document.getElementById('ka_'+i)?.value)||0;
+    const t=parseFloat(document.getElementById('kt_'+i)?.value)||0.01;
+    let att=k.lower?Math.min((t/Math.max(a,1e-9))*100,150):Math.min((a/t)*100,150);
+    wAtt+=Math.round(att)*(k.weight/100); tW+=k.weight/100;
+  });
+  BEHAVIORS.forEach((_,i)=>{behavSum+=parseInt(document.getElementById('bs_'+i)?.value)||3;});
+  const avgKpi=tW>0?Math.round(wAtt/tW):0;
+  const kpiScore=Math.round(Math.min(avgKpi/100*60,60));
+  const behavScore=Math.round((behavSum/(BEHAVIORS.length*5))*30);
+  const attScore=gatePass?10:0;
+  const total=gatePass?kpiScore+behavScore+attScore:0;
+  const avgBehav=behavSum/BEHAVIORS.length;
+  const cl=classify(total,avgKpi,avgBehav,gatePass);
+  const record={name:currentEmp.name,dept:currentEmp.dept,pos:currentEmp.pos,gatePass,avgKpi,kpiScore,behavScore,attScore,total,cl,evaluator:document.getElementById('evalBy').value||'—',month:activeMonth};
+  const idx=currentScores.findIndex(s=>s.name===currentEmp.name);
+  if(idx>=0){currentScores[idx]=record;document.getElementById('saveMsg').textContent=currentEmp.name+' updated ✓';}
+  else{currentScores.push(record);document.getElementById('saveMsg').textContent=currentEmp.name+' saved ✓';}
+  setTimeout(()=>document.getElementById('saveMsg').textContent='',3000);
+  populateEmpSelect(); updateOverview();
+}
+
+function resetEntry(){
+  document.getElementById('empSel').value='';
+  document.getElementById('empDept').value='';
+  document.getElementById('evalBy').value='';
+  document.getElementById('dPresent').value=23;
+  document.getElementById('tLate').value=0;
+  document.getElementById('kpiRows').innerHTML='<p style="font-size:12px;color:#aaa">Select an employee to load KPIs.</p>';
+  document.getElementById('behavRows').innerHTML='<p style="font-size:12px;color:#aaa">Select an employee to load behavior indicators.</p>';
+  document.getElementById('kpiScore').textContent='— / 60';
+  document.getElementById('behavScore').textContent='— / 30';
+  ['rv_kpi','rv_beh','rv_att','rv_tot'].forEach(id=>document.getElementById(id).textContent='—');
+  document.getElementById('totalBar').style.width='0%';
+  document.getElementById('classBadge').className='badge bx';
+  document.getElementById('classBadge').textContent='—';
+  document.getElementById('kpiAvgDisp').textContent='';
+  document.getElementById('gateMsg').innerHTML='';
+  document.getElementById('saveMsg').textContent='';
+  currentEmp=null; calcGate();
+}
+
+// ── OVERVIEW ──────────────────────────────────────────────────
+function updateOverview(){
+  const s=currentScores;
+  document.getElementById('ov_scored').textContent=s.length;
+  document.getElementById('ov_a').textContent=s.filter(x=>x.cl==='A Player').length;
+  const p=s.filter(x=>x.gatePass);
+  document.getElementById('ov_kpi').textContent=p.length?Math.round(p.reduce((a,x)=>a+x.avgKpi,0)/p.length)+'%':'—';
+  document.getElementById('scoredCount').textContent=s.length+' / '+EMPLOYEES.length+' scored';
+  if(!s.length){document.getElementById('deptSummary').innerHTML='<span style="color:#888">No scores yet.</span>';return;}
+  const depts=[...new Set(s.map(x=>x.dept))];
+  document.getElementById('deptSummary').innerHTML=depts.map(d=>{
+    const ds=s.filter(x=>x.dept===d), p2=ds.filter(x=>x.gatePass);
+    const avg=p2.length?Math.round(p2.reduce((a,x)=>a+x.total,0)/p2.length):0;
+    return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <span class="dept-tag" style="${deptStyle(d)};min-width:80px;text-align:center">${d}</span>
+      <span style="font-size:12px;min-width:55px">${ds.length} scored</span>
+      <div class="prog" style="flex:1"><div class="progf" style="width:${avg}%;background:${avg>=85?'#639922':avg>=70?'#378ADD':'#E24B4A'}"></div></div>
+      <span style="font-size:12px;font-weight:500;min-width:50px;text-align:right">${avg}/100</span>
+    </div>`;
+  }).join('');
+}
+
+// ── RANKING ───────────────────────────────────────────────────
+function populateDeptFilter(){
+  const sel=document.getElementById('deptFilter'), cur=sel.value;
+  const depts=[...new Set(currentScores.map(s=>s.dept))];
+  sel.innerHTML='<option value="">All departments</option>'+depts.map(d=>`<option${d===cur?' selected':''}>${d}</option>`).join('');
+}
+
+function renderRanking(){
+  const fc=document.getElementById('rankFilter').value;
+  const fd=document.getElementById('deptFilter').value;
+  const rows=[...currentScores].filter(s=>{
+    if(fc&&s.cl!==fc)return false;
+    if(fd&&s.dept!==fd)return false;
+    return true;
+  }).sort((a,b)=>b.total-a.total);
+  const top3=currentScores.filter(s=>s.gatePass).sort((a,b)=>b.total-a.total).slice(0,3);
+  const pod=document.getElementById('podium');
+  if(top3.length){
+    const order=top3.length>=3?[top3[1],top3[0],top3[2]]:[top3[0]];
+    const st=[{bg:'#bdc3c7',tc:'#2c3e50',lbl:'🥈 2nd'},{bg:'#f9ca24',tc:'#1a1a2e',lbl:'🥇 A-Player of the Month'},{bg:'#e67e22',tc:'#fff',lbl:'🥉 3rd'}];
+    pod.innerHTML=`<div style="display:grid;grid-template-columns:repeat(${order.length},1fr);gap:8px;margin-bottom:12px">
+      ${order.map((e,i)=>{
+        const s=top3.length>=3?st[i]:st[1];
+        return`<div style="background:${s.bg};color:${s.tc};border-radius:12px;padding:.75rem 1rem;text-align:center">
+          <div style="font-size:11px;font-weight:500;margin-bottom:4px">${s.lbl}</div>
+          <div style="font-size:13px;font-weight:600">${e.name.split(' ').slice(0,2).join(' ')}</div>
+          <div style="font-size:11px;opacity:.8">${e.pos}</div>
+          <div style="font-size:16px;font-weight:700;margin-top:4px">${e.total}/100</div>
+          <div style="font-size:10px;opacity:.8">KPI avg: ${e.avgKpi}%</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  } else { pod.innerHTML=''; }
+  const tbody=document.getElementById('rankBody');
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:2rem;color:#888">No scores match filter.</td></tr>';return;}
+  tbody.innerHTML=rows.map((s,i)=>`<tr>
+    <td style="font-weight:600;text-align:center">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td>
+    <td><strong style="font-size:12px">${s.name.split(' ').slice(0,2).join(' ')}</strong><br><span style="font-size:10px;color:#888">${s.pos}</span></td>
+    <td><span class="dept-tag" style="${deptStyle(s.dept)}">${s.dept}</span></td>
+    <td style="font-weight:500;color:${s.avgKpi>=90?'#27500A':s.avgKpi>=75?'#633806':'#791F1F'}">${s.gatePass?s.avgKpi+'%':'—'}</td>
+    <td>${s.gatePass?s.kpiScore:'—'}</td>
+    <td>${s.gatePass?s.behavScore:'—'}</td>
+    <td>${s.gatePass?s.attScore:'—'}</td>
+    <td style="font-weight:600">${s.gatePass?s.total:0}</td>
+    <td><span class="badge ${badgeClass(s.cl)}">${s.cl}</span></td>
+  </tr>`).join('');
+}
+
+// ── FINALIZE / LOCK ───────────────────────────────────────────
+function openModal(){
+  if(!currentScores.length){alert('No scores to finalize yet.');return;}
+  document.getElementById('modalCount').textContent=currentScores.length;
+  document.getElementById('modalMonth').textContent=activeMonth;
+  document.getElementById('modalBg').classList.add('show');
+}
+function closeModal(){document.getElementById('modalBg').classList.remove('show');}
+
+function confirmFinalize(){
+  closeModal();
+  lockedHistory.push({month:activeMonth,scores:[...currentScores],lockedAt:new Date().toLocaleString()});
+  isLocked=true;
+  document.getElementById('lockStatus').innerHTML='<span class="locked-badge">🔒 LOCKED</span>';
+  document.getElementById('finalizeBtn').style.display='none';
+  document.getElementById('addMissingBtn').style.display='none';
+  document.getElementById('lockedNotice').style.display='block';
+  document.getElementById('saveBtn').disabled=true;
+  document.getElementById('saveBtn').style.opacity='.4';
+  document.getElementById('addPanel').style.display='none';
+  renderHistory(); renderPastMonths();
+  alert('✅ '+activeMonth+' finalized and locked. '+currentScores.length+' records stored.');
+}
+
+// ── HISTORY ───────────────────────────────────────────────────
+function renderHistory(){
+  const div=document.getElementById('historyContent');
+  if(!lockedHistory.length){div.innerHTML='<span style="color:#888">No locked records yet.</span>';return;}
+  div.innerHTML=lockedHistory.map(h=>{
+    const aP=h.scores.filter(s=>s.cl==='A Player').sort((a,b)=>b.total-a.total);
+    const top=aP[0];
+    return`<div style="margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+        <span class="locked-badge">🔒 ${h.month}</span>
+        <span style="font-size:11px;color:#888">${h.scores.length} employees · Locked: ${h.lockedAt}</span>
+        ${top?`<span class="badge ba">🏆 ${top.name.split(' ').slice(0,2).join(' ')} — ${top.total}/100</span>`:''}
+      </div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th style="width:140px">Name</th><th style="width:90px">Dept</th><th style="width:58px">KPI avg</th><th style="width:50px">KPI/60</th><th style="width:52px">Beh/30</th><th style="width:50px">Att/10</th><th style="width:50px">Total</th><th style="width:88px">Class.</th></tr></thead>
+        <tbody>${h.scores.sort((a,b)=>b.total-a.total).map(s=>`<tr>
+          <td><strong>${s.name.split(' ').slice(0,2).join(' ')}</strong></td>
+          <td><span class="dept-tag" style="${deptStyle(s.dept)}">${s.dept}</span></td>
+          <td>${s.gatePass?s.avgKpi+'%':'—'}</td>
+          <td>${s.gatePass?s.kpiScore:'—'}</td>
+          <td>${s.gatePass?s.behavScore:'—'}</td>
+          <td>${s.gatePass?s.attScore:'—'}</td>
+          <td style="font-weight:600">${s.gatePass?s.total:0}</td>
+          <td><span class="badge ${badgeClass(s.cl)}">${s.cl}</span></td>
+        </tr>`).join('')}</tbody>
+      </table></div>
+    </div>`;
+  }).join('<hr style="margin:16px 0;border:none;border-top:1px solid #eee">');
+}
+
+function renderPastMonths(){
+  const div=document.getElementById('pastMonthsList');
+  if(!lockedHistory.length){div.innerHTML='';return;}
+  div.innerHTML='<div class="stitle" style="margin-top:12px">Previously locked</div>'+
+    lockedHistory.map(h=>`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #f0f0f0">
+      <span class="locked-badge" style="font-size:11px">🔒 ${h.month}</span>
+      <span style="font-size:12px;color:#888">${h.scores.length} employees · ${h.lockedAt}</span>
+    </div>`).join('');
+}
+
+// ── KPI REFERENCE ─────────────────────────────────────────────
+function buildKpiRef(){
+  const byDept={};
+  EMPLOYEES.forEach(e=>{
+    if(!byDept[e.dept])byDept[e.dept]=[];
+    if(!byDept[e.dept].find(x=>x.pos===e.pos))byDept[e.dept].push({pos:e.pos});
+  });
+  document.getElementById('kpiRefContent').innerHTML=Object.entries(byDept).map(([dept,roles])=>`
+    <div style="margin-bottom:18px">
+      <div style="display:inline-block;padding:3px 12px;border-radius:8px;${deptStyle(dept)};font-size:12px;font-weight:500;margin-bottom:8px">${dept}</div>
+      ${roles.map(r=>{
+        const kpis=KPI_MAP[r.pos]||[];
+        if(!kpis.length)return'';
+        return`<div style="margin-bottom:10px">
+          <div style="font-size:12px;font-weight:500;color:#555;margin-bottom:4px">${r.pos}</div>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:3px">
+            ${kpis.map(k=>`<div style="font-size:11px;padding:4px 8px;background:#f8f8f8;border-radius:6px;display:flex;justify-content:space-between;gap:4px">
+              <span style="color:#555">${k.label}</span>
+              <span style="font-weight:500;color:#333;white-space:nowrap">${k.weight}% · T:${k.target}${k.unit==='%'?'%':' '+k.unit}${k.lower?' ↓':''}</span>
+            </div>`).join('')}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`).join('');
+}
+
+// ── TABS ──────────────────────────────────────────────────────
+function showTab(t,btn){
+  document.querySelectorAll('#mainTabs .tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(t==='ranking'){renderRanking();populateDeptFilter();}
+  if(t==='overview')updateOverview();
+  if(t==='history')renderHistory();
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+buildKpiRef();
+calcGate();
+</script>
+</body>
+</html>
