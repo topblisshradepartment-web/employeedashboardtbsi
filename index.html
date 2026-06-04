@@ -1329,4 +1329,115 @@ function renderAwards(){
   if(!lockedHistory.length){histDiv.innerHTML='<span style="color:#888">No locked months yet.</span>';return;}
   histDiv.innerHTML=lockedHistory.map(h=>{
     const w=h.scores.filter(s=>s.isAwardEligible).sort((a,b)=>b.finalScore-a.finalScore)[0];
-    return`<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;backgroun
+    return`<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f8f8f8;border-radius:8px;margin-bottom:6px">
+      <span class="locked-badge">🔒 ${h.month}</span>
+      ${w?`<span style="font-weight:700">🏆 ${w.name.split(' ').slice(0,2).join(' ')}</span><span style="font-size:12px;color:#856404;font-weight:700">${w.finalScore}%</span><span style="font-size:11px;color:#888">· 2-Day Staycation</span>`
+      :'<span style="font-size:12px;color:#888">No award winner this month</span>'}
+    </div>`;
+  }).join('');
+}
+
+// ── FINALIZE ──────────────────────────────────────────────────
+function openModal(){
+  if(!currentScores.length){alert('No scores yet.');return;}
+  document.getElementById('modalCount').textContent=currentScores.length;
+  document.getElementById('modalMonth').textContent=activeMonth;
+  document.getElementById('modalBg').classList.add('show');
+}
+function closeModal(){document.getElementById('modalBg').classList.remove('show');}
+function confirmFinalize(){
+  closeModal();
+  lockedHistory.push({month:activeMonth,scores:[...currentScores],lockedAt:new Date().toLocaleString()});
+  isLocked=true;
+  document.getElementById('lockStatus').innerHTML='<span class="locked-badge">🔒 LOCKED</span>';
+  document.getElementById('finalizeBtn').style.display='none';
+  document.getElementById('addMissingBtn').style.display='none';
+  document.getElementById('lockedNotice').style.display='block';
+  document.getElementById('saveBtn').disabled=true;
+  document.getElementById('saveBtn').style.opacity='.4';
+  document.getElementById('addPanel').style.display='none';
+  renderHistory();renderPastMonths();
+  alert('✅ '+activeMonth+' locked and stored. '+currentScores.length+' records saved.');
+}
+
+// ── HISTORY ───────────────────────────────────────────────────
+function renderHistory(){
+  const div=document.getElementById('historyContent');
+  if(!lockedHistory.length){div.innerHTML='<span style="color:#888">No locked records yet.</span>';return;}
+  div.innerHTML=lockedHistory.map(h=>{
+    const winner=h.scores.filter(s=>s.isAwardEligible).sort((a,b)=>b.finalScore-a.finalScore)[0];
+    return`<div style="margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+        <span class="locked-badge">🔒 ${h.month}</span>
+        <span style="font-size:11px;color:#888">${h.scores.length} employees · Locked: ${h.lockedAt}</span>
+        ${winner?`<span class="badge ba">🏆 ${winner.name.split(' ').slice(0,2).join(' ')} — ${winner.finalScore}% — Award Eligible</span>`:''}
+      </div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>Name</th><th>Dept</th><th>KPI</th><th>Behav</th><th>Final</th><th>Class.</th><th>Rating</th><th>Award</th><th>Recommendation</th></tr></thead>
+        <tbody>${h.scores.sort((a,b)=>b.finalScore-a.finalScore).map(s=>`<tr>
+          <td><strong>${s.name.split(' ').slice(0,2).join(' ')}</strong></td>
+          <td><span class="dept-tag" style="${ds(s.dept)}">${s.dept}</span></td>
+          <td style="font-weight:700">${s.kpiRaw}%</td>
+          <td style="font-weight:700">${s.behRaw}%</td>
+          <td style="font-weight:800;color:${s.finalScore>=76?'#27500A':'#791F1F'}">${s.finalScore}%</td>
+          <td><span class="badge ${s.playerCls}">${s.playerClass}</span></td>
+          <td><span class="badge ${s.ratingCls}">${s.rating}</span></td>
+          <td>${s.isAwardEligible?'<span style="color:#27500A;font-weight:700">✅ Eligible</span>':'<span style="color:#888">—</span>'}</td>
+          <td style="font-size:11px;white-space:normal">${s.recommendation}</td>
+        </tr>`).join('')}</tbody>
+      </table></div>
+    </div>`;
+  }).join('<hr style="margin:16px 0;border:none;border-top:2px dashed #eee">');
+}
+
+function renderPastMonths(){
+  const div=document.getElementById('pastMonthsList');
+  if(!lockedHistory.length){div.innerHTML='';return;}
+  div.innerHTML='<div class="stitle" style="margin-top:12px">Previously locked evaluations</div>'+
+    lockedHistory.map(h=>`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #f0f0f0">
+      <span class="locked-badge" style="font-size:11px">🔒 ${h.month}</span>
+      <span style="font-size:12px;color:#888">${h.scores.length} employees · ${h.lockedAt}</span>
+    </div>`).join('');
+}
+
+// ── KPI REFERENCE ─────────────────────────────────────────────
+function buildKpiRef(){
+  const byDept={};
+  EMPLOYEES.forEach(e=>{if(!byDept[e.dept])byDept[e.dept]=[];if(!byDept[e.dept].find(x=>x.pos===e.pos))byDept[e.dept].push({pos:e.pos});});
+  document.getElementById('kpiRefContent').innerHTML=Object.entries(byDept).map(([dept,roles])=>`
+    <div style="margin-bottom:20px">
+      <div style="display:inline-block;padding:3px 14px;border-radius:20px;${ds(dept)};font-size:12px;font-weight:700;margin-bottom:8px">${dept}</div>
+      ${roles.map(r=>{
+        const d=KPI_MAP[r.pos];if(!d)return'';
+        return`<div style="margin-bottom:12px">
+          <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:6px">${r.pos}</div>
+          ${d.kras.map(kra=>`
+            <div style="font-size:11px;font-weight:700;color:#fff;background:linear-gradient(135deg,#1a1a2e,#2c3e6e);padding:4px 10px;border-radius:6px;margin-bottom:4px">${kra.kra}</div>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:3px;margin-bottom:6px">
+              ${kra.kpis.map(k=>`<div style="font-size:11px;padding:5px 8px;background:#f8f8f8;border-radius:6px;border-left:3px solid #1a1a2e">
+                <div style="font-weight:700;color:#1a1a1a">${k.label}</div>
+                <div style="color:#888;margin-top:2px">${k.weight}% · ${k.target}</div>
+              </div>`).join('')}
+            </div>`).join('')}
+        </div>`;
+      }).join('')}
+    </div>`).join('');
+}
+
+// ── TABS ──────────────────────────────────────────────────────
+function showTab(t,btn){
+  document.querySelectorAll('#mainTabs .tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(t==='ranking'){renderRanking();populateDeptFilter();}
+  if(t==='overview')updateOverview();
+  if(t==='history')renderHistory();
+  if(t==='awards')renderAwards();
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+buildKpiRef();
+</script>
+</body>
+</html>
